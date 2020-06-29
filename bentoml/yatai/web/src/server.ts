@@ -11,9 +11,11 @@ const logger = getLogger();
 const createRoutes = (app, yataiClient) => {
   app.get("/api/ListBento", async (req: Request, res: Response) => {
     if (req.query.limit && typeof req.query.limit == "string") {
+      logger.info({ "limit": req.query.limit});
       req.query.limit = Number(req.query.limit);
     }
     if (req.query.offset && typeof req.query.offset == "string") {
+      logger.info({ "offset": req.query.offset});
       req.query.offset = Number(req.query.offset);
     }
     let verifyError = bentoml.ListBentoRequest.verify(req.query);

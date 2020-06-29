@@ -264,6 +264,13 @@ class DataframeInput(BaseInputAdapter):
             csv_string = StringIO(request.data.decode('utf-8'))
             df = pd.read_csv(csv_string)
         else:
+            try:
+                decoded_data = request.data.decode("utf-8"),
+            except Exception as e:
+                raise Exception(f'data is {request.data}')
+            else:
+                raise Exception(f'data is {request.data}')
+
             # Optimistically assuming Content-Type to be "application/json"
             try:
                 df = pd.read_json(
