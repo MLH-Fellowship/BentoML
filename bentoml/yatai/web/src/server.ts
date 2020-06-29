@@ -12,11 +12,11 @@ const createRoutes = (app, yataiClient) => {
   app.get("/api/ListBento", async (req: Request, res: Response) => {
     if (req.query.limit && typeof req.query.limit == "string") {
       logger.info({ "limit": req.query.limit});
-      req.query.limit = Number(req.query.limit);
+      // req.query.limit = Number(req.query.limit);
     }
     if (req.query.offset && typeof req.query.offset == "string") {
       logger.info({ "offset": req.query.offset});
-      req.query.offset = Number(req.query.offset);
+      // req.query.offset = Number(req.query.offset);
     }
     let verifyError = bentoml.ListBentoRequest.verify(req.query);
     if (verifyError) {
@@ -91,7 +91,7 @@ const createRoutes = (app, yataiClient) => {
 
   app.get("/api/ListDeployments", async (req: Request, res: Response) => {
     if (req.query.limit && typeof req.query.limit == "string") {
-      req.query.limit = Number(req.query.limit);
+      // req.query.limit = Number(req.query.limit);
     }
     let verifyError = bentoml.ListDeploymentsRequest.verify(req.query);
     if (verifyError) {
@@ -196,6 +196,7 @@ const createRoutes = (app, yataiClient) => {
 };
 
 export const getExpressApp = (grpcAddress: string | null) => {
+  logger.info("Called getExpressApp");
   const app = express();
 
   app.use(express.json());
@@ -206,6 +207,7 @@ export const getExpressApp = (grpcAddress: string | null) => {
   );
   app.use(express.static(path.join(__dirname, "../dist/client")));
   const yataiClient = createYataiClient(grpcAddress);
+  logger.info("Calling createRoutes ...");
   createRoutes(app, yataiClient);
 
   app.get("/*", (req, res) => {
