@@ -56,13 +56,12 @@ class GCSRepository(BaseRepository):
         try:
             bucket = self.gcs_client.bucket(self.bucket)
             blob = bucket.blob(object_name)
-            # TODO: Fix this
-            # blob.upload_from_filename(source_file_name)
-            # response = self.gcs_client.generate_presigned_url(
-            #     'put_object',
-            #     Params={'Bucket': self.bucket, 'Key': object_name},
-            #     ExpiresIn=self._expiration,
-            # )
+
+            response = blob.generate_signed_url(
+                        version="v4",
+                        expiration=self._expiration,
+                        method="PUT",
+                    )
         except Exception as e:
             raise YataiRepositoryException(
                 "Not able to get pre-signed URL on GCS. Error: {}".format(e)
@@ -70,8 +69,8 @@ class GCSRepository(BaseRepository):
 
         return BentoUri(
             type=self.uri_type,
-            uri='gcs://{}/{}'.format(self.bucket, object_name),
-            gcs_presigned_url=response,
+            uri='gs://{}/{}'.format(self.bucket, object_name),
+            s3_presigned_url=response,
         )
 
     def get(self, bento_name, bento_version):
