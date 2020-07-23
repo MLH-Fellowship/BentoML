@@ -32,13 +32,6 @@ class GCSRepository(BaseRepository):
         parse_result = urlparse(base_url)
         self.bucket = parse_result.netloc
         self.base_path = parse_result.path.lstrip('/')
-        # gcs_client_args = {}
-        # signature_version = config('yatai_service').get('GCS_SIGNATURE_VERSION')
-        # gcs_client_args['config'] = boto3.session.Config(
-        #     signature_version=signature_version
-        # )
-        # if s3_endpoint_url is not None:
-        #     gcs_client_args['endpoint_url'] = s3_endpoint_url
         self.gcs_client = storage.Client()
 
     @property
@@ -58,10 +51,10 @@ class GCSRepository(BaseRepository):
             blob = bucket.blob(object_name)
 
             response = blob.generate_signed_url(
-                        version="v4",
-                        expiration=self._expiration,
-                        method="PUT",
-                    )
+                version="v4",
+                expiration=self._expiration,
+                method="PUT",
+            )
         except Exception as e:
             raise YataiRepositoryException(
                 "Not able to get pre-signed URL on GCS. Error: {}".format(e)
@@ -79,19 +72,34 @@ class GCSRepository(BaseRepository):
         object_name = self._get_object_name(bento_name, bento_version)
 
         try:
-            response = self.gcs_client.generate_presigned_url(
-                'get_object',
-                Params={'Bucket': self.bucket, 'Key': object_name},
-                ExpiresIn=self._expiration,
+            bucket = self.gcs_client.bucket(self.bucket)
+            blob = bucket.blob(object_name)
+
+            response = blob.generate_signed_url(
+                version="v4",
+                expiration=self._expiration,
+                method="GET",
             )
             return response
         except Exception:  # pylint: disable=broad-except
             logger.error(
-                "Failed generating presigned URL for downloading saved bundle from gcs,"
-                "falling back to using gcs path and client side credential for"
-                "downloading with boto3"
+                "Failed generating presigned URL for downloading saved bundle from GCS,"
+                "falling back to using gs path and client side credential for"
+                "downloading with google.cloud.storage"
             )
-            return 'gcs://{}/{}'.format(self.bucket, object_name)
+            return 'gs://{}/{}'.format(self.bucket, object_name)
 
     def dangerously_delete(self, bento_name, bento_version):
-        return
+        # Remove s3 path containing related Bento files
+
+        object_name = self._get_object_name(bento_name, bento_version)
+
+        try:
+            bucket = self.gcs_client.bucket(self.bucket)
+            blob = bucket.blob(object_name)
+            blob.delete()
+            # TODO: handle gcs errors
+        except Exception as e:
+            raise YataiRepositoryException(
+                "Not able to delete object on S3. Error: {}".format(e)
+            )
