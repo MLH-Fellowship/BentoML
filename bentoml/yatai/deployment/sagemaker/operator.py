@@ -49,7 +49,7 @@ RUN apt-get update --fix-missing && \
     apt-get clean
 
 # gevent required by AWS Sagemaker
-RUN pip install gevent
+RUN pip install gevent==1.4
 
 # copy over model files
 COPY . /bento
@@ -97,7 +97,7 @@ def get_arn_role_from_current_aws_user():
                 "again"
             )
         return arn
-    elif type_role[0] == "role":
+    elif type_role[0] in ["role", "assumed-role"]:
         role_response = iam_client.get_role(RoleName=type_role[1])
         return role_response["Role"]["Arn"]
 

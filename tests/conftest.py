@@ -7,6 +7,72 @@ from bentoml.yatai.client import YataiClient
 from tests.bento_service_examples.example_bento_service import ExampleBentoService
 
 
+def pytest_configure():
+    '''
+    global constants for tests
+    '''
+    # async request client
+    async def assert_request(
+        method,
+        url,
+        headers=None,
+        data=None,
+        timeout=None,
+        assert_status=None,
+        assert_data=None,
+    ):
+        if assert_status is None:
+            assert_status = 200
+
+        import aiohttp
+
+        try:
+            async with aiohttp.ClientSession() as sess:
+                async with sess.request(
+                    method, url, data=data, headers=headers, timeout=timeout
+                ) as r:
+                    data = await r.read()
+        except RuntimeError:
+            # the event loop has been closed due to previous task failed, ignore
+            return
+
+        if callable(assert_status):
+            assert assert_status(r.status)
+        else:
+            assert r.status == assert_status
+
+        if assert_data is not None:
+            if callable(assert_data):
+                assert assert_data(data)
+            else:
+                assert data == assert_data
+
+    pytest.assert_request = assert_request
+
+    # dataframe json orients
+    pytest.DF_ORIENTS = {
+        'split',
+        'records',
+        'index',
+        'columns',
+        'values',
+        # 'table',  # TODO(bojiang)
+    }
+    pytest.DF_AUTO_ORIENTS = {
+        'records',
+        'columns',
+    }
+
+
+def pytest_addoption(parser):
+    parser.addoption("--batch-request", action="store_false")
+
+
+@pytest.fixture()
+def is_batch_request(pytestconfig):
+    return pytestconfig.getoption("batch_request")
+
+
 @pytest.fixture()
 def img_file(tmpdir):
     img_file_ = tmpdir.join("test_img.jpg")
@@ -31,8 +97,15 @@ class TestModel(object):
             assert input_data is not None
         return [input_data.shape for input_data in input_datas]
 
-    def predict_json(self, input_data):
-        assert input_data is not None
+    def predict_legacy_images(self, original, compared):
+        return (original == compared).all()
+
+    def predict_json(self, input_jsons):
+        assert input_jsons
+        return [{"ok": True}] * len(input_jsons)
+
+    def predict_legacy_json(self, input_json):
+        assert input_json is not None
         return {"ok": True}
 
 

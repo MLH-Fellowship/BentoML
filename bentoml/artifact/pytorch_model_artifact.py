@@ -15,7 +15,8 @@
 import os
 import logging
 
-from bentoml.artifact import BentoServiceArtifact, BentoServiceArtifactWrapper
+from bentoml.artifact import BentoServiceArtifact
+from bentoml.service_env import BentoServiceEnv
 from bentoml.utils import cloudpickle
 from bentoml.exceptions import MissingDependencyException, InvalidArgument
 
@@ -52,14 +53,14 @@ class PytorchModelArtifact(BentoServiceArtifact):
     >>>
     >>>
     >>> import bentoml
-    >>> from bentoml.handlers import ImageHandler
+    >>> from bentoml.adapters import ImageInput
     >>> from bentoml.artifact import PytorchModelArtifact
     >>>
     >>> @bentoml.env(auto_pip_dependencies=True)
     >>> @bentoml.artifacts([PytorchModelArtifact('net')])
     >>> class PytorchModelService(bentoml.BentoService):
     >>>
-    >>>     @bentoml.api(ImageHandler)
+    >>>     @bentoml.api(input=ImageInput())
     >>>     def predict(self, imgs):
     >>>         outputs = self.artifacts.net(imgs)
     >>>         return outputs
@@ -74,12 +75,26 @@ class PytorchModelArtifact(BentoServiceArtifact):
     def __init__(self, name, file_extension=".pt"):
         super(PytorchModelArtifact, self).__init__(name)
         self._file_extension = file_extension
+        self._model = None
 
     def _file_path(self, base_path):
         return os.path.join(base_path, self.name + self._file_extension)
 
     def pack(self, model):  # pylint:disable=arguments-differ
-        return _PytorchModelArtifactWrapper(self, model)
+        try:
+            import torch
+        except ImportError:
+            raise MissingDependencyException(
+                "torch package is required to use PytorchModelArtifact"
+            )
+
+        if not isinstance(model, torch.nn.Module):
+            raise InvalidArgument(
+                "PytorchModelArtifact can only pack type 'torch.nn.Module'"
+            )
+
+        self._model = model
+        return self
 
     def load(self, path):
         try:
@@ -99,8 +114,7 @@ class PytorchModelArtifact(BentoServiceArtifact):
 
         return self.pack(model)
 
-    @property
-    def pip_dependencies(self):
+    def set_dependencies(self, env: BentoServiceEnv):
         logger.warning(
             "BentoML by default does not include spacy and torchvision package when "
             "using PytorchModelArtifact. To make sure BentoML bundle those packages if "
@@ -108,29 +122,10 @@ class PytorchModelArtifact(BentoServiceArtifact):
             "BentoService definition file or manually add them via "
             "`@env(pip_dependencies=['torchvision'])` when defining a BentoService"
         )
-        return ['torch']
-
-
-class _PytorchModelArtifactWrapper(BentoServiceArtifactWrapper):
-    def __init__(self, spec, model):
-        super(_PytorchModelArtifactWrapper, self).__init__(spec)
-
-        try:
-            import torch
-        except ImportError:
-            raise MissingDependencyException(
-                "torch package is required to use PytorchModelArtifact"
-            )
-
-        if not isinstance(model, torch.nn.Module):
-            raise InvalidArgument(
-                "PytorchModelArtifact can only pack type 'torch.nn.Module'"
-            )
-
-        self._model = model
+        env.add_pip_dependencies_if_missing(['torch'])
 
     def get(self):
         return self._model
 
     def save(self, dst):
-        return cloudpickle.dump(self._model, open(self.spec._file_path(dst), "wb"))
+        return cloudpickle.dump(self._model, open(self._file_path(dst), "wb"))

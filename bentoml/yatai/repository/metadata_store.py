@@ -44,6 +44,7 @@ logger = logging.getLogger(__name__)
 
 
 DEFAULT_UPLOAD_STATUS = UploadStatus(status=UploadStatus.UNINITIALIZED)
+DEFAULT_LIST_LIMIT = 40
 
 
 class Bento(Base):
@@ -80,6 +81,21 @@ class Bento(Base):
 
 
 def _bento_orm_obj_to_pb(bento_obj):
+    # Backwards compatible support loading saved bundle created before 0.8.0
+    if (
+        'apis' in bento_obj.bento_service_metadata
+        and bento_obj.bento_service_metadata['apis']
+    ):
+        for api in bento_obj.bento_service_metadata['apis']:
+            if 'handler_type' in api:
+                api['input_type'] = api['handler_type']
+                del api['handler_type']
+            if 'handler_config' in api:
+                api['input_config'] = api['handler_config']
+                del api['handler_config']
+            if 'output_type' not in api:
+                api['output_type'] = 'DefaultOutput'
+
     bento_service_metadata_pb = ParseDict(
         bento_obj.bento_service_metadata, BentoServiceMetadata()
     )
@@ -218,7 +234,7 @@ class BentoMetadataStore(object):
 
             # We are not defaulting limit to 200 in the signature,
             # because protobuf will pass 0 as value
-            limit = limit or 200
+            limit = limit or DEFAULT_LIST_LIMIT
             # Limit and offset need to be called after order_by filter/filter_by is
             # called
             query = query.limit(limit)

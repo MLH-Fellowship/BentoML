@@ -18,7 +18,10 @@ import inspect
 import logging
 import uuid
 from datetime import datetime
-from abc import abstractmethod, ABCMeta
+from typing import List
+
+import flask
+from werkzeug.utils import cached_property
 
 from bentoml import config
 from bentoml.saved_bundle import save_to_dir
@@ -26,92 +29,144 @@ from bentoml.saved_bundle.config import SavedBundleConfig
 from bentoml.service_env import BentoServiceEnv
 from bentoml.utils import isidentifier
 from bentoml.utils.hybridmethod import hybridmethod
-from bentoml.marshal.utils import DataLoader
-from bentoml.server.trace import trace
-from bentoml.exceptions import NotFound, InvalidArgument
+from bentoml.exceptions import NotFound, InvalidArgument, BentoMLException
+from bentoml.server import trace
+
 
 ARTIFACTS_DIR_NAME = "artifacts"
-ZIPKIN_API_URL = config("tracing").get("zipkin_api_url")
-
+DEFAULT_MAX_LATENCY = config("marshal_server").getint("default_max_latency")
+DEFAULT_MAX_BATCH_SIZE = config("marshal_server").getint("default_max_batch_size")
+BENTOML_RESERVED_API_NAMES = [
+    "index",
+    "swagger",
+    "docs",
+    "healthz",
+    "metrics",
+    "feedback",
+]
 logger = logging.getLogger(__name__)
 
 
-class BentoServiceAPI(object):
-    """BentoServiceAPI defines abstraction for an API call that can be executed
-    with BentoAPIServer and BentoCLI
-
-    Args:
-        service (BentoService): ref to service containing this API
-        name (str): API name, by default this is the python function name
-        handler (bentoml.handlers.BentoHandler): A BentoHandler class that transforms
-            HTTP Request and/or CLI options into expected format for the API func
-        func (function): API func contains the actual API callback, this is
-            typically the 'predict' method on a model
+class InferenceAPI(object):
+    """
+    InferenceAPI defines an inference call to the underlying model, including its input
+    and output adapter, the user-defined API callback function, and configurations for
+    working with the BentoML adaptive micro-batching mechanism
     """
 
-    def __init__(self, service, name, doc, handler, func):
+    def __init__(
+        self, service, name, doc, handler, func, mb_max_latency, mb_max_batch_size
+    ):
         """
         :param service: ref to service containing this API
         :param name: API name
-        :param handler: A BentoHandler that transforms HTTP Request and/or
+        :param doc: the user facing document of this inference API, default to the
+            docstring of the inference API function
+        :param handler: A InputAdapter that transforms HTTP Request and/or
             CLI options into parameters for API func
-        :param func: API func contains the actual API callback, this is
+        :param func: the user-defined API callback function, this is
             typically the 'predict' method on a model
+        :param mb_max_latency: The latency goal of this inference API in milliseconds.
+            Default: 10000.
+        :param mb_max_batch_size: The maximum size of requests batch accepted by this
+            inference API. This parameter governs the throughput/latency trade off, and
+            avoids having large batches that exceed some resource constraint (e.g. GPU
+            memory to hold the entire batch's data). Default: 1000.
+
         """
         self._service = service
         self._name = name
-        self._doc = doc
         self._handler = handler
         self._func = func
         self._wrapped_func = None
+        self.mb_max_latency = mb_max_latency
+        self.mb_max_batch_size = mb_max_batch_size
+
+        if doc is None:
+            # generate a default doc string for this inference API
+            doc = (
+                f"BentoService inference API '{self.name}', input: "
+                f"'{type(handler).__name__}', output: "
+                f"'{type(handler.output_adapter).__name__}'"
+            )
+        self._doc = doc
 
     @property
     def service(self):
+        """
+        :return: a reference to the BentoService serving this inference API
+        """
         return self._service
 
     @property
     def name(self):
+        """
+        :return: the name of this inference API
+        """
         return self._name
 
     @property
     def doc(self):
+        """
+        :return: user facing documentation of this inference API
+        """
         return self._doc
 
     @property
     def handler(self):
+        """
+        handler is a deprecated concept, we are moving it to the new input/output
+        adapter interface. Currently this `handler` property returns the input adapter
+        of this inference API
+        """
         return self._handler
 
     @property
+    def output_adapter(self):
+        """
+        :return: the output adapter of this inference API
+        """
+        return self.handler.output_adapter
+
+    @cached_property
     def func(self):
-        if not self._wrapped_func:
+        """
+        :return: user-defined inference API callback function
+        """
 
-            def _wrapped_func(*args, **kwargs):
-                with trace(
-                    ZIPKIN_API_URL,
-                    service_name=self.__class__.__name__,
-                    span_name="user defined api handler",
-                ):
-                    resp = self._func(*args, **kwargs)
-                return resp
+        def func_with_tracing(*args, **kwargs):
+            with trace(
+                service_name=self.__class__.__name__,
+                span_name="user defined inference api callback function",
+            ):
+                return self._func(*args, **kwargs)
 
-            self._wrapped_func = _wrapped_func
-        return self._wrapped_func
+        return func_with_tracing
 
     @property
     def request_schema(self):
-        return self.handler.request_schema
+        """
+        :return: the HTTP API request schema in OpenAPI/Swagger format
+        """
+        schema = self.handler.request_schema
+        if schema.get('application/json'):
+            schema.get('application/json')['example'] = self.handler._http_input_example
+        return schema
 
-    def handle_request(self, request):
+    def handle_request(self, request: flask.Request):
         return self.handler.handle_request(request, self.func)
 
-    def handle_batch_request(self, request):
-        requests = DataLoader.split_requests(request.data)
+    def handle_batch_request(self, request: flask.Request):
+        from bentoml.marshal.utils import DataLoader
+
+        requests = DataLoader.split_requests(request.get_data())
+
         with trace(
-            ZIPKIN_API_URL,
             service_name=self.__class__.__name__,
-            span_name=f"call `{self._handler.__class__.__name__}`",
+            span_name=f"call `{self.handler.__class__.__name__}`",
         ):
             responses = self.handler.handle_batch_request(requests, self.func)
+
         return DataLoader.merge_responses(responses)
 
     def handle_cli(self, args):
@@ -121,156 +176,131 @@ class BentoServiceAPI(object):
         return self.handler.handle_aws_lambda_event(event, self.func)
 
 
-class BentoServiceBase(object):
-    """
-    BentoServiceBase is an abstraction class that defines the interface for accessing a
-    list of BentoServiceAPI for BentoAPIServer and BentoCLI to execute on
-    """
+def validate_inference_api_name(api_name):
+    if not isidentifier(api_name):
+        raise InvalidArgument(
+            "Invalid API name: '{}', a valid identifier must contains only letters,"
+            " numbers, underscores and not starting with a number.".format(api_name)
+        )
 
-    __metaclass__ = ABCMeta
-
-    _service_apis = []
-
-    @property
-    @abstractmethod
-    def name(self):
-        """
-        return BentoService name
-        """
-
-    @property
-    @abstractmethod
-    def version(self):
-        """
-        return BentoService version str
-        """
-
-    def _config_service_apis(self):
-        self._service_apis = []
-        for _, function in inspect.getmembers(
-            self.__class__,
-            predicate=lambda x: inspect.isfunction(x) or inspect.ismethod(x),
-        ):
-            if hasattr(function, "_is_api"):
-                api_name = getattr(function, "_api_name")
-                api_doc = getattr(function, "_api_doc")
-                handler = getattr(function, "_handler")
-
-                # Bind api method call with self(BentoService instance)
-                func = function.__get__(self)
-
-                self._service_apis.append(
-                    BentoServiceAPI(self, api_name, api_doc, handler, func)
-                )
-
-    def get_service_apis(self):
-        """Return a list of user defined API functions
-
-        Returns:
-            list(BentoServiceAPI): List of user defined API functions
-        """
-        return self._service_apis
-
-    def get_service_api(self, api_name=None):
-        if api_name:
-            try:
-                return next((api for api in self._service_apis if api.name == api_name))
-            except StopIteration:
-                raise NotFound(
-                    "Can't find API '{}' in service '{}'".format(api_name, self.name)
-                )
-        elif len(self._service_apis):
-            return self._service_apis[0]
-        else:
-            raise NotFound("Can't find default API for service '{}'".format(self.name))
+    if api_name in BENTOML_RESERVED_API_NAMES:
+        raise InvalidArgument(
+            "Reserved API name: '{}' is reserved for infra endpoints".format(api_name)
+        )
 
 
 def api_decorator(
-    *args, input=None, output=None, api_name=None, api_doc=None, **kwargs
+    *args,
+    input=None,
+    output=None,
+    api_name=None,
+    api_doc=None,
+    mb_max_batch_size=DEFAULT_MAX_BATCH_SIZE,
+    mb_max_latency=DEFAULT_MAX_LATENCY,
+    **kwargs,
 ):  # pylint: disable=redefined-builtin
-    """Decorator for adding api to a BentoService
+    """
+    A decorator exposed as `bentoml.api` for defining Inference API in a BentoService
+    class.
 
-    Args:
-        handler_cls (bentoml.handlers.BentoHandler): The handler class for the API
-            function.
+    :param input: InputAdapter instance of the inference API
+    :param output: OutputAdapter instance of the inference API
+    :param api_name: API name, default to the user-defined callback function's function
+        name
+    :param api_doc: user-facing documentation of the inference API. default to the
+        user-defined callback function's docstring
+    :param mb_max_batch_size: The maximum size of requests batch accepted by this
+        inference API. This parameter governs the throughput/latency trade off, and
+        avoids having large batches that exceed some resource constraint (e.g. GPU
+        memory to hold the entire batch's data). Default: 1000.
+    :param mb_max_latency: The latency goal of this inference API in milliseconds.
+        Default: 10000.
 
-        api_name (:obj:`str`, optional): API name to replace function name
-        api_doc (:obj:`str`, optional): Docstring for API function
 
-        **kwargs: Additional keyword arguments for handler class. Please reference
-            to what arguments are available for the particular handler
+    Example usage:
 
-    Raises:
-        InvalidArgument: API name must contains only letters
-
-    after version 0.8
     >>> from bentoml import BentoService, api
-    >>> from bentoml.handlers import JsonHandler, DataframeHandler
+    >>> from bentoml.adapters import JsonInput, DataframeInput
     >>>
     >>> class FraudDetectionAndIdentityService(BentoService):
     >>>
-    >>>     @api(input=JsonHandler())
-    >>>     def fraud_detect(self, parsed_json):
-    >>>         # do something
+    >>>     @api(input=JsonInput())
+    >>>     def fraud_detect(self, json_list):
+    >>>         # user-defined callback function that process inference requests
     >>>
-    >>>     @api(input=DataframeHandler(input_json_orient='records'))
+    >>>     @api(input=DataframeInput(input_json_orient='records'))
     >>>     def identity(self, df):
-    >>>         # do something
+    >>>         # user-defined callback function that process inference requests
 
-    before version 0.8
+
+    Deprecated syntax before version 0.8.0:
+
     >>> from bentoml import BentoService, api
-    >>> from bentoml.handlers import JsonHandler, DataframeHandler
+    >>> from bentoml.handlers import JsonHandler, DataframeHandler  # deprecated
     >>>
     >>> class FraudDetectionAndIdentityService(BentoService):
     >>>
-    >>>     @api(JsonHandler)
+    >>>     @api(JsonHandler)  # deprecated
     >>>     def fraud_detect(self, parsed_json):
     >>>         # do something
     >>>
-    >>>     @api(DataframeHandler, input_json_orient='records')
+    >>>     @api(DataframeHandler, input_json_orient='records')  # deprecated
     >>>     def identity(self, df):
     >>>         # do something
 
     """
 
-    DEFAULT_API_DOC = "BentoService API"
-
-    from bentoml.handlers.base_handlers import BentoHandler
+    from bentoml.adapters import BaseInputAdapter
 
     def decorator(func):
         _api_name = func.__name__ if api_name is None else api_name
-        _api_doc = (
-            (func.__doc__ or DEFAULT_API_DOC).strip() if api_doc is None else api_doc
-        )
+        validate_inference_api_name(_api_name)
 
         if input is None:
             # support bentoml<=0.7
             if not args or not (
-                inspect.isclass(args[0]) and issubclass(args[0], BentoHandler)
+                inspect.isclass(args[0]) and issubclass(args[0], BaseInputAdapter)
             ):
                 raise InvalidArgument(
                     "BentoService @api decorator first parameter must "
-                    "be class derived from bentoml.handlers.BentoHandler"
+                    "be class derived from bentoml.adapters.BaseInputAdapter"
                 )
 
-            handler = args[0](*args[1:], **kwargs)
+            handler = args[0](*args[1:], output_adapter=output, **kwargs)
         else:
+            assert isinstance(input, BaseInputAdapter), (
+                "API input parameter must be an instance of any classes inherited from "
+                "bentoml.adapters.BaseInputAdapter"
+            )
             handler = input
+            handler._output_adapter = output
 
         setattr(func, "_is_api", True)
         setattr(func, "_handler", handler)
-        setattr(func, "_output_adapter", output)
-        if not isidentifier(_api_name):
-            raise InvalidArgument(
-                "Invalid API name: '{}', a valid identifier must contains only letters,"
-                " numbers, underscores and not starting with a number.".format(
-                    _api_name
-                )
-            )
         setattr(func, "_api_name", _api_name)
-        setattr(func, "_api_doc", _api_doc)
+        setattr(func, "_api_doc", api_doc)
+        setattr(func, "_mb_max_batch_size", mb_max_batch_size)
+        setattr(func, "_mb_max_latency", mb_max_latency)
 
         return func
+
+    return decorator
+
+
+def web_static_content_decorator(web_static_content):
+    """Define web UI static files required to be bundled with a BentoService
+
+    Args:
+        web_static_content: path to directory containg index.html and static dir
+
+    >>>  @web_static_content('./ui/')
+    >>>  class MyMLService(BentoService):
+    >>>     pass
+    """
+
+    def decorator(bento_service_cls):
+        bento_service_cls._web_static_content = web_static_content
+        return bento_service_cls
 
     return decorator
 
@@ -308,13 +338,13 @@ def artifacts_decorator(artifacts):
 
 
 def env_decorator(
-    pip_dependencies=None,
-    auto_pip_dependencies=False,
-    requirements_txt_file=None,
-    conda_channels=None,
-    conda_dependencies=None,
-    setup_sh=None,
-    docker_base_image=None,
+    pip_dependencies: List[str] = None,
+    auto_pip_dependencies: bool = False,
+    requirements_txt_file: str = None,
+    conda_channels: List[str] = None,
+    conda_dependencies: List[str] = None,
+    setup_sh: str = None,
+    docker_base_image: str = None,
 ):
     """Define environment and dependencies required for the BentoService being created
 
@@ -326,10 +356,13 @@ def env_decorator(
         requirements_txt_file: pip dependencies in the form of a requirements.txt file,
             this can be a relative path to the requirements.txt file or the content
             of the file
-        conda_channels: extra conda channels to be used
+        conda_channels: list of extra conda channels to be used
         conda_dependencies: list of conda dependencies required
         setup_sh: user defined setup bash script, it is executed in docker build time
-        docker_base_image: used when generating Dockerfile in saved bundle
+        docker_base_image: used for customizing the docker container image built with
+            BentoML saved bundle. Base image must either have both `bash` and `conda`
+            installed; or have `bash`, `pip`, `python` installed, in which case the user
+            is required to ensure the python version matches the BentoService bundle
     """
 
     def decorator(bento_service_cls):
@@ -437,38 +470,39 @@ def save(bento_service, base_path=None, version=None):
     return yatai_client.repository.upload(bento_service, version)
 
 
-class BentoService(BentoServiceBase):
+class BentoService:
     """
     BentoService is the base component for building prediction services using BentoML.
 
     BentoService provide an abstraction for describing model artifacts and environment
-    dependencies required for a prediction service. And allows users to write custom
-    prediction API handling logic via BentoService API callback function.
+    dependencies required for a prediction service. And allows users to create inference
+    APIs that defines the inferencing logic and how the underlying model can be served.
+    Each BentoService can contain multiple models and serve multiple inference APIs.
 
-    Each BentoService can contain multiple models via the BentoML Artifact class, and
-    can define multiple APIs for accessing this service. Each API should specify a type
-    of Handler, which defines the expected input data format for this API.
+    Usage example:
 
-    >>>  from bentoml import BentoService, env, api, artifacts, ver
-    >>>  from bentoml.handlers import DataframeHandler
+    >>>  from bentoml import BentoService, env, api, artifacts
+    >>>  from bentoml.adapters import DataframeInput
     >>>  from bentoml.artifact import SklearnModelArtifact
     >>>
-    >>>  @ver(major=1, minor=4)
     >>>  @artifacts([SklearnModelArtifact('clf')])
     >>>  @env(pip_dependencies=["scikit-learn"])
     >>>  class MyMLService(BentoService):
     >>>
-    >>>     @api(DataframeHandler)
+    >>>     @api(input=DataframeInput())
     >>>     def predict(self, df):
     >>>         return self.artifacts.clf.predict(df)
     >>>
-    >>>  bento_service = MyMLService()
-    >>>  bento_service.pack('clf', trained_classifier_model)
-    >>>  bento_service.save_to_dir('/bentoml_bundles')
+    >>>  if __name__ == "__main__":
+    >>>     bento_service = MyMLService()
+    >>>     bento_service.pack('clf', trained_classifier_model)
+    >>>     bento_service.save_to_dir('/bentoml_bundles')
     """
 
-    # User may use @name to override this if they don't want the generated model
-    # to have the same name as their Python model class name
+    # List of inference APIs that this BentoService provides
+    _inference_apis = []
+
+    # Name of this BentoService. It is default the class name of this BentoService class
     _bento_service_name = None
 
     # For BentoService loaded from saved bundle, this will be set to the path of bundle.
@@ -476,11 +510,11 @@ class BentoService(BentoServiceBase):
     # installed site-package location of current python environment
     _bento_service_bundle_path = None
 
-    # list of artifacts required by this BentoService
+    # A list of artifacts required by this BentoService
     _artifacts = []
 
-    # Describe the desired environment for this BentoService using
-    # `bentoml.service_env.BentoServiceEnv`
+    #  A `BentoServiceEnv` instance specifying the required dependencies and all system
+    #  environment setups
     _env = None
 
     # When loading BentoService from saved bundle, this will be set to the version of
@@ -490,6 +524,9 @@ class BentoService(BentoServiceBase):
     # See `ver_decorator` function above for more information
     _version_major = None
     _version_minor = None
+
+    # See `web_static_content` function above for more
+    _web_static_content = None
 
     def __init__(self):
         from bentoml.artifact import ArtifactCollection
@@ -501,22 +538,89 @@ class BentoService(BentoServiceBase):
             # load artifacts from saved BentoService bundle
             self._load_artifacts(self._bento_service_bundle_path)
 
-        self._config_service_apis()
-        self._init_env()
+        self._config_inference_apis()
+        self._config_environments()
 
-    def _init_env(self):
+    def _config_environments(self):
         self._env = self.__class__._env or BentoServiceEnv(self.name)
 
-        for api in self._service_apis:
-            self._env._add_pip_dependencies_if_missing(api.handler.pip_dependencies)
+        for api in self._inference_apis:
+            self._env.add_pip_dependencies_if_missing(api.handler.pip_dependencies)
+            self._env.add_pip_dependencies_if_missing(
+                api.output_adapter.pip_dependencies
+            )
 
         for artifact in self._artifacts:
-            self._env._add_pip_dependencies_if_missing(artifact.pip_dependencies)
+            artifact.set_dependencies(self.env)
+
+    def _config_inference_apis(self):
+        self._inference_apis = []
+
+        for _, function in inspect.getmembers(
+            self.__class__,
+            predicate=lambda x: inspect.isfunction(x) or inspect.ismethod(x),
+        ):
+            if hasattr(function, "_is_api"):
+                api_name = getattr(function, "_api_name")
+                api_doc = getattr(function, "_api_doc")
+                handler = getattr(function, "_handler")
+                mb_max_latency = getattr(function, "_mb_max_latency")
+                mb_max_batch_size = getattr(function, "_mb_max_batch_size")
+
+                # Bind api method call with self(BentoService instance)
+                func = function.__get__(self)
+
+                self._inference_apis.append(
+                    InferenceAPI(
+                        self,
+                        api_name,
+                        api_doc,
+                        handler=handler,
+                        func=func,
+                        mb_max_latency=mb_max_latency,
+                        mb_max_batch_size=mb_max_batch_size,
+                    )
+                )
+
+    @property
+    def inference_apis(self):
+        """Return a list of user defined API functions
+
+        Returns:
+            list(InferenceAPI): List of Inference API objects
+        """
+        return self._inference_apis
+
+    def get_inference_api(self, api_name):
+        """Find the inference API in this BentoService with a specific name.
+
+        When the api_name is None, this returns the first Inference API found in the
+        `self.inference_apis` list.
+
+        :param api_name: the target Inference API's name
+        :return:
+        """
+        if api_name:
+            try:
+                return next(
+                    (api for api in self.inference_apis if api.name == api_name)
+                )
+            except StopIteration:
+                raise NotFound(
+                    "Can't find API '{}' in service '{}'".format(api_name, self.name)
+                )
+        elif len(self.inference_apis) > 0:
+            return self.inference_apis[0]
+        else:
+            raise NotFound(f"Can't find any inference API in service '{self.name}'")
 
     @property
     def artifacts(self):
-        """
-        :return: List of model artifacts
+        """ Returns all packed artifacts in an ArtifactCollection object
+
+        Returns:
+            artifacts(ArtifactCollection): A dictionary of packed artifacts from the
+            artifact name to the loaded artifact model instance in its native form
         """
         return self._packed_artifacts
 
@@ -524,13 +628,33 @@ class BentoService(BentoServiceBase):
     def env(self):
         return self._env
 
+    @property
+    def web_static_content(self):
+        return self._web_static_content
+
+    def get_web_static_content_path(self):
+        if not self.web_static_content:
+            return None
+        if self._bento_service_bundle_path:
+            return os.path.join(
+                self._bento_service_bundle_path, self.name, 'web_static_content',
+            )
+        else:
+            return os.path.join(os.getcwd(), self.web_static_content)
+
     @hybridmethod
     @property
     def name(self):
+        """
+        :return: BentoService name
+        """
         return self.__class__.name()  # pylint: disable=no-value-for-parameter
 
     @name.classmethod
     def name(cls):  # pylint: disable=no-self-argument,invalid-overridden-method
+        """
+        :return: BentoService name
+        """
         if cls._bento_service_name is not None:
             if not isidentifier(cls._bento_service_name):
                 raise InvalidArgument(
@@ -544,7 +668,9 @@ class BentoService(BentoServiceBase):
             return cls.__name__
 
     def set_version(self, version_str=None):
-        """Manually override the version of this BentoService instance
+        """Set the version of this BentoService instance. Once the version is set
+        explicitly via `set_version`, the `self.versioneer` method will no longer be
+        invoked when saving this BentoService.
         """
         if version_str is None:
             version_str = self.versioneer()
@@ -597,6 +723,18 @@ class BentoService(BentoServiceBase):
 
     @property
     def version(self):
+        """
+        Return the version of this BentoService. If the version of this BentoService has
+        not been set explicitly via `self.set_version`, a new version will be generated
+        with the `self.versioneer` method. User can customize this version str either by
+        setting the version with `self.set_version` before a `save` call, or override
+        the `self.versioneer` method to customize the version str generator logic.
+
+        For BentoService loaded from a saved bundle, this will simply return the version
+        information found in the saved bundle.
+
+        :return: BentoService version str
+        """
         if self.__class__._bento_service_bundle_version is not None:
             return self.__class__._bento_service_bundle_version
 
@@ -660,37 +798,12 @@ class BentoService(BentoServiceBase):
     @pack.classmethod
     def pack(cls, *args, **kwargs):  # pylint: disable=no-self-argument
         """
-        **Deprecated**: Legacy `BentoService#pack` class method, which can be used to
-        initialize a BentoService instance along with trained model artifacts. This will
-        be deprecated soon:
-
-        :param args: args passing to the BentoService class
-        :param kwargs: kwargs passing to the BentoService class and (artifact_name,
-            args) pair for creating declared model artifacts
-        :return: a new BentoService instance
+        **Deprecated**: Legacy `BentoService#pack` class method, no longer supported
         """
-        logger.warning(
+        raise BentoMLException(
             "BentoService#pack class method is deprecated, use instance method `pack` "
             "instead. e.g.: svc = MyBentoService(); svc.pack('model', model_object)"
         )
-        from bentoml.artifact import ArtifactCollection
-
-        if args and isinstance(args[0], ArtifactCollection):
-            bento_svc = cls(*args[1:], **kwargs)  # pylint: disable=not-callable
-            bento_svc._packed_artifacts = args[0]
-            return bento_svc
-
-        packed_artifacts = []
-        for artifact in cls._artifacts:
-            if artifact.name in kwargs:
-                artifact_args = kwargs.pop(artifact.name)
-                packed_artifacts.append(artifact.pack(artifact_args))
-
-        bento_svc = cls(*args, **kwargs)  # pylint: disable=not-callable
-        for packed_artifact in packed_artifacts:
-            bento_svc.artifacts.add(packed_artifact)
-
-        return bento_svc
 
     def _load_artifacts(self, path):
         # For pip installed BentoService, artifacts directory is located at

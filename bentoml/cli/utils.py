@@ -21,12 +21,11 @@ import logging
 from datetime import datetime
 
 import humanfriendly
-from google.protobuf.json_format import MessageToDict
 from tabulate import tabulate
 
 from bentoml.cli.click_utils import _echo
-from bentoml.yatai.proto.deployment_pb2 import DeploymentState, DeploymentSpec
 from bentoml.utils import pb_to_yaml
+from bentoml.exceptions import BentoMLException
 
 logger = logging.getLogger(__name__)
 
@@ -92,12 +91,35 @@ def parse_key_value_pairs(key_value_pairs_str):
     return result
 
 
+def echo_docker_api_result(docker_generator):
+    layers = {}
+    for line in docker_generator:
+        if "stream" in line:
+            cleaned = line['stream'].rstrip("\n")
+            if cleaned != "":
+                yield cleaned
+        if "status" in line and line["status"] == "Pushing":
+            progress = line["progressDetail"]
+            layers[line["id"]] = progress["current"], progress["total"]
+            cur, total = zip(*layers.values())
+            cur, total = (
+                humanfriendly.format_size(sum(cur)),
+                humanfriendly.format_size(sum(total)),
+            )
+            yield (f"Pushed {cur} / {total}")
+        if "errorDetail" in line:
+            error = line["errorDetail"]
+            raise BentoMLException(error["message"])
+
+
 def _print_deployment_info(deployment, output_type):
     if output_type == 'yaml':
         _echo(pb_to_yaml(deployment))
     else:
+        from google.protobuf.json_format import MessageToDict
+
         deployment_info = MessageToDict(deployment)
-        if deployment_info['state']['infoJson']:
+        if deployment_info['state'] and deployment_info['state']['infoJson']:
             deployment_info['state']['infoJson'] = json.loads(
                 deployment_info['state']['infoJson']
             )
@@ -131,6 +153,8 @@ def humanfriendly_age_from_datetime(dt, detailed=False, max_unit=2):
 
 
 def _print_deployments_table(deployments):
+    from bentoml.yatai.proto.deployment_pb2 import DeploymentState, DeploymentSpec
+
     table = []
     headers = [
         'NAME',
@@ -164,3 +188,9 @@ def _print_deployments_info(deployments, output_type):
     else:
         for deployment in deployments:
             _print_deployment_info(deployment, output_type)
+
+
+def get_default_yatai_client():
+    from bentoml.yatai.client import YataiClient
+
+    return YataiClient()

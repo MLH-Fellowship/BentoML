@@ -15,13 +15,17 @@
 import os
 import importlib
 
+from bentoml.service_env import BentoServiceEnv
 from bentoml.utils import cloudpickle
-from bentoml.artifact import BentoServiceArtifact, BentoServiceArtifactWrapper
+from bentoml.artifact import BentoServiceArtifact
 from bentoml.exceptions import (
     ArtifactLoadingException,
     MissingDependencyException,
     InvalidArgument,
 )
+
+
+MODULE_NAME_FILE_ENCODING = "utf-8"
 
 
 class KerasModelArtifact(BentoServiceArtifact):
@@ -56,7 +60,7 @@ class KerasModelArtifact(BentoServiceArtifact):
     >>> @bentoml.env(pip_dependencies=['tensorflow==1.14.0', 'numpy', 'pandas'])
     >>> @bentoml.artifacts([KerasModelArtifact('model')])
     >>> class KerasModelService(bentoml.BentoService):
-    >>>     @bentoml.api(JsonHandler)
+    >>>     @bentoml.api(input=JsonInput())
     >>>     def predict(self, parsed_json):
     >>>         input_data = text.text_to_word_sequence(parsed_json['text'])
     >>>         return self.artifacts.model.predict_classes(input_data)
@@ -88,19 +92,22 @@ class KerasModelArtifact(BentoServiceArtifact):
         # By default assume using tf.keras module
         self._keras_module_name = tf.keras.__name__
 
-        self.custom_objects = custom_objects
+        self._default_custom_objects = custom_objects
         self.graph = None
         self.sess = None
 
-    @property
-    def pip_dependencies(self):
+        self._model = None
+        self._custom_objects = None
+        self._model_wrapper = None
+
+    def set_dependencies(self, env: BentoServiceEnv):
         # Note that keras module is not required, user can use tf.keras as an
         # replacement for the keras module. Although tensorflow module is required to
         #  be used as the default Keras backend
-        deps = ['tensorflow']
+        pip_deps = ['tensorflow']
         if self._keras_module_name == 'keras':
-            deps.append('keras')
-        return deps
+            pip_deps.append('keras')
+        env.add_pip_dependencies_if_missing(pip_deps)
 
     def _keras_module_name_path(self, base_path):
         # The name of the keras module used, can be 'keras' or 'tensorflow.keras'
@@ -157,11 +164,11 @@ class KerasModelArtifact(BentoServiceArtifact):
             custom_objects = (
                 data['custom_objects']
                 if 'custom_objects' in data
-                else self.custom_objects
+                else self._default_custom_objects
             )
         else:
             model = data
-            custom_objects = self.custom_objects
+            custom_objects = self._default_custom_objects
 
         if not isinstance(model, tf.keras.models.Model):
             error_msg = (
@@ -181,12 +188,16 @@ class KerasModelArtifact(BentoServiceArtifact):
 
         self.bind_keras_backend_session()
         model._make_predict_function()
-        return _KerasModelArtifactWrapper(self, model, custom_objects)
+
+        self._model = model
+        self._custom_objects = custom_objects
+        self._model_wrapper = _KerasModelWrapper(self._model, self.graph, self.sess)
+        return self
 
     def load(self, path):
         if os.path.isfile(self._keras_module_name_path(path)):
             with open(self._keras_module_name_path(path), "rb") as text_file:
-                keras_module_name = text_file.read().decode("utf-8")
+                keras_module_name = text_file.read().decode(MODULE_NAME_FILE_ENCODING)
                 try:
                     keras_module = importlib.import_module(keras_module_name)
                 except ImportError:
@@ -197,10 +208,10 @@ class KerasModelArtifact(BentoServiceArtifact):
 
         self.creat_session()
 
-        if self.custom_objects is None and os.path.isfile(
+        if self._default_custom_objects is None and os.path.isfile(
             self._custom_objects_path(path)
         ):
-            self.custom_objects = cloudpickle.load(
+            self._default_custom_objects = cloudpickle.load(
                 open(self._custom_objects_path(path), 'rb')
             )
 
@@ -211,47 +222,36 @@ class KerasModelArtifact(BentoServiceArtifact):
                     with open(self._model_json_path(path), 'r') as json_file:
                         model_json = json_file.read()
                     model = keras_module.models.model_from_json(
-                        model_json, custom_objects=self.custom_objects
+                        model_json, custom_objects=self._default_custom_objects
                     )
                     model.load_weights(self._model_weights_path(path))
                 # otherwise, load keras model via standard load_model
                 else:
                     model = keras_module.models.load_model(
-                        self._model_file_path(path), custom_objects=self.custom_objects
+                        self._model_file_path(path),
+                        custom_objects=self._default_custom_objects,
                     )
         return self.pack(model)
 
-
-class _KerasModelArtifactWrapper(BentoServiceArtifactWrapper):
-    def __init__(self, spec, model, custom_objects):
-        super(_KerasModelArtifactWrapper, self).__init__(spec)
-
-        self.graph = spec.graph
-        self.sess = spec.sess
-        self._model = model
-        self._custom_objects = custom_objects
-        self._store_as_json_and_weights = spec._store_as_json_and_weights
-        self._model_wrapper = _KerasModelWrapper(self._model, self.graph, self.sess)
-
     def save(self, dst):
         # save the keras module name to be used when loading
-        with open(self.spec._keras_module_name_path(dst), "wb") as text_file:
-            text_file.write(self.spec._keras_module_name.encode("utf-8"))
+        with open(self._keras_module_name_path(dst), "wb") as text_file:
+            text_file.write(self._keras_module_name.encode(MODULE_NAME_FILE_ENCODING))
 
         # save custom_objects for model
         cloudpickle.dump(
-            self._custom_objects, open(self.spec._custom_objects_path(dst), "wb")
+            self._custom_objects, open(self._custom_objects_path(dst), "wb")
         )
 
         # save keras model using json and weights if requested
-        if self.spec._store_as_json_and_weights:
-            with open(self.spec._model_json_path(dst), "w") as json_file:
+        if self._store_as_json_and_weights:
+            with open(self._model_json_path(dst), "w") as json_file:
                 json_file.write(self._model.to_json())
-            self._model.save_weights(self.spec._model_weights_path(dst))
+            self._model.save_weights(self._model_weights_path(dst))
 
         # otherwise, save standard keras model
         else:
-            self._model.save(self.spec._model_file_path(dst))
+            self._model.save(self._model_file_path(dst))
 
     def get(self):
         return self._model_wrapper

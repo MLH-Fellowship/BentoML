@@ -13,67 +13,65 @@
 # limitations under the License.
 
 import os
+import logging
 
-from bentoml.exceptions import InvalidArgument
+from bentoml.exceptions import InvalidArgument, FailedPrecondition
+from bentoml.service_env import BentoServiceEnv
+
+logger = logging.getLogger(__name__)
 
 ARTIFACTS_DIR_NAME = "artifacts"
 
 
-class BentoServiceArtifact(object):
+class BentoServiceArtifact:
     """
-    Artifact is a spec describing how to pack and load different types
-    of model dependencies to/from file system.
-
-    A call to pack and load should return an BentoServiceArtifactWrapper that can
-    be saved to file system or retrieved for BentoService workload
+    BentoServiceArtifact is the base abstraction for describing the trained model
+    serialization and deserialization process.
     """
 
     def __init__(self, name):
+        if not name.isidentifier():
+            raise ValueError(
+                "Artifact name must be a valid python identifier, a string \
+                is considered a valid identifier if it only contains \
+                alphanumeric letters (a-z) and (0-9), or underscores (_). \
+                A valid identifier cannot start with a number, or contain any spaces."
+            )
         self._name = name
+        self._packed = False
+        self._loaded = False
 
     @property
-    def pip_dependencies(self):
-        return []
+    def packed(self):
+        return self._packed
+
+    @property
+    def loaded(self):
+        return self._loaded
+
+    @property
+    def is_ready(self):
+        return self.packed or self.loaded
 
     @property
     def name(self):
         """
-        The name of an artifact is used to set parameters for #pack when used
-        in BentoService, and as name of sub-directory for the artifact files
-        when saving to file system
+        The name of an artifact. It can be used to reference this artifact in a
+        BentoService inference API callback function, via `self.artifacts[NAME]`
         """
         return self._name
 
-    def pack(self, data):
+    def pack(self, model):
         """
-        Pack the in-memory representation of the target artifacts and make sure
-        they are ready for 'save' and 'get'
+        Pack the in-memory trained model object to this BentoServiceArtifact
 
         Note: add "# pylint:disable=arguments-differ" to child class's pack method
         """
 
     def load(self, path):
         """
-        Load artifact assuming it was 'self.save' on the given base_path
+        Load artifact assuming it was 'self.save' on the same `path`
         """
-
-
-class BentoServiceArtifactWrapper(object):
-    """
-    BentoServiceArtifactWrapper is an object representing a materialized Artifact,
-    either loaded from file system or packed with data in a python session
-    """
-
-    def __init__(self, spec):
-        self._spec = spec
-
-    @property
-    def spec(self):
-        """
-        :return: reference to the BentoServiceArtifact that generated this
-        BentoServiceArtifactWrapper
-        """
-        return self._spec
 
     def save(self, dst):
         """
@@ -82,8 +80,93 @@ class BentoServiceArtifactWrapper(object):
 
     def get(self):
         """
-        Get returns a reference to the artifact being packed
+        Get returns a reference to the artifact being packed or loaded from path
         """
+
+    def set_dependencies(self, env: BentoServiceEnv):
+        """modify target BentoServiceEnv instance to ensure the required dependencies
+        are listed in the BentoService environment spec
+
+        :param env: target BentoServiceEnv instance to modify
+        """
+
+    def __getattribute__(self, item):
+        if item == 'pack':
+            original = object.__getattribute__(self, item)
+
+            def wrapped_pack(*args, **kwargs):
+                if self.packed:
+                    logger.warning(
+                        "`pack` an artifact multiple times may lead to unexpected "
+                        "behaviors"
+                    )
+                ret = original(*args, **kwargs)
+                # do not set `self._pack` if `pack` has failed with an exception raised
+                self._packed = True
+                return ret
+
+            return wrapped_pack
+
+        elif item == 'load':
+            original = object.__getattribute__(self, item)
+
+            def wrapped_load(*args, **kwargs):
+                if self.packed:
+                    logger.warning(
+                        "`load` on a 'packed' artifact may lead to unexpected behaviors"
+                    )
+                if self.loaded:
+                    logger.warning(
+                        "`load` an artifact multiple times may lead to unexpected "
+                        "behaviors"
+                    )
+                ret = original(*args, **kwargs)
+                # do not set self._loaded if `load` has failed with an exception raised
+                self._loaded = True
+                return ret
+
+            return wrapped_load
+
+        elif item == 'save':
+
+            def wrapped_save(*args, **kwargs):
+                if not self.is_ready:
+                    raise FailedPrecondition(
+                        "Trying to save empty artifact. An artifact needs to be `pack` "
+                        "with model instance or `load` from saved path before saving"
+                    )
+                original = object.__getattribute__(self, item)
+                return original(*args, **kwargs)
+
+            return wrapped_save
+
+        elif item == 'get':
+
+            def wrapped_get(*args, **kwargs):
+                if not self.is_ready:
+                    raise FailedPrecondition(
+                        "Trying to access empty artifact. An artifact needs to be "
+                        "`pack` with model instance or `load` from saved path before "
+                        "it can be used for inference"
+                    )
+                original = object.__getattribute__(self, item)
+                return original(*args, **kwargs)
+
+            return wrapped_get
+
+        return object.__getattribute__(self, item)
+
+
+class BentoServiceArtifactWrapper:
+    """
+    Deprecated: use only the BentoServiceArtifact to define artifact operations
+    """
+
+    def __init__(self):
+        logger.warning(
+            "BentoServiceArtifactWrapper is deprecated now, use BentoServiceArtifact "
+            "to define artifact operations"
+        )
 
 
 class ArtifactCollection(dict):
@@ -91,28 +174,20 @@ class ArtifactCollection(dict):
     A dict of artifact instances (artifact.name -> artifact_instance)
     """
 
-    def __setitem__(self, key, artifact):
-        if key != artifact.spec.name:
+    def __setitem__(self, key: str, artifact: BentoServiceArtifact):
+        if key != artifact.name:
             raise InvalidArgument(
                 "Must use Artifact name as key, {} not equal to {}".format(
-                    key, artifact.spec.name
+                    key, artifact.name
                 )
             )
-
         self.add(artifact)
 
-    def __getattr__(self, item):
+    def __getattr__(self, item: str):
         return self[item].get()
 
-    def add(self, artifact):
-        if not isinstance(artifact, BentoServiceArtifactWrapper):
-            raise InvalidArgument(
-                "ArtifactCollection only accepts type BentoServiceArtifactWrapper,"
-                "Must call BentoServiceArtifact#pack or BentoServiceArtifact#load "
-                "before adding to an ArtifactCollection"
-            )
-
-        super(ArtifactCollection, self).__setitem__(artifact.spec.name, artifact)
+    def add(self, artifact: BentoServiceArtifact):
+        super(ArtifactCollection, self).__setitem__(artifact.name, artifact)
 
     def save(self, dst):
         """

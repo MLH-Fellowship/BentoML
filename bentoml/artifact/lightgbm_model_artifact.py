@@ -14,8 +14,9 @@
 
 import os
 
-from bentoml.artifact import BentoServiceArtifact, BentoServiceArtifactWrapper
+from bentoml.artifact import BentoServiceArtifact
 from bentoml.exceptions import MissingDependencyException, InvalidArgument
+from bentoml.service_env import BentoServiceEnv
 
 
 class LightGBMModelArtifact(BentoServiceArtifact):
@@ -42,13 +43,13 @@ class LightGBMModelArtifact(BentoServiceArtifact):
     >>>
     >>> import bentoml
     >>> from bentoml.artifact import LightGBMModelArtifact
-    >>> from bentoml.handlers import DataframeHandler
+    >>> from bentoml.adapters import DataframeInput
     >>>
     >>> @bentoml.artifacts([LightGBMModelArtifact('model')])
     >>> @bentoml.env(auto_pip_dependencies=True)
     >>> class LgbModelService(bentoml.BentoService):
     >>>
-    >>>     @bentoml.api(DataframeHandler)
+    >>>     @bentoml.api(input=DataframeInput())
     >>>     def predict(self, df):
     >>>         return self.artifacts.model.predict(df)
     >>>
@@ -59,34 +60,12 @@ class LightGBMModelArtifact(BentoServiceArtifact):
     def __init__(self, name, model_extension=".txt"):
         super(LightGBMModelArtifact, self).__init__(name)
         self.model_extension = model_extension
+        self._model = None
 
     def _model_file_path(self, base_path):
         return os.path.join(base_path, self.name + self.model_extension)
 
     def pack(self, model):  # pylint:disable=arguments-differ
-        return _LightGBMModelArtifactWrapper(self, model)
-
-    def load(self, path):
-        try:
-            import lightgbm as lgb
-        except ImportError:
-            raise MissingDependencyException(
-                "lightgbm package is required to use LightGBMModelArtifact"
-            )
-        bst = lgb.Booster(model_file=self._model_file_path(path))
-
-        return self.pack(bst)
-
-    @property
-    def pip_dependencies(self):
-        return ['lightgbm']
-
-
-class _LightGBMModelArtifactWrapper(BentoServiceArtifactWrapper):
-    def __init__(self, spec, model):
-
-        super(_LightGBMModelArtifactWrapper, self).__init__(spec)
-
         try:
             import lightgbm as lgb
         except ImportError:
@@ -100,9 +79,24 @@ class _LightGBMModelArtifactWrapper(BentoServiceArtifactWrapper):
             )
 
         self._model = model
+        return self
+
+    def load(self, path):
+        try:
+            import lightgbm as lgb
+        except ImportError:
+            raise MissingDependencyException(
+                "lightgbm package is required to use LightGBMModelArtifact"
+            )
+        bst = lgb.Booster(model_file=self._model_file_path(path))
+
+        return self.pack(bst)
+
+    def set_dependencies(self, env: BentoServiceEnv):
+        env.add_pip_dependencies_if_missing(['lightgbm'])
 
     def save(self, dst):
-        return self._model.save_model(self.spec._model_file_path(dst))
+        return self._model.save_model(self._model_file_path(dst))
 
     def get(self):
         return self._model

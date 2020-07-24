@@ -15,8 +15,9 @@
 import logging
 import os
 
-from bentoml.artifact import BentoServiceArtifact, BentoServiceArtifactWrapper
+from bentoml.artifact import BentoServiceArtifact
 from bentoml.exceptions import MissingDependencyException, InvalidArgument
+from bentoml.service_env import BentoServiceEnv
 
 logger = logging.getLogger(__name__)
 
@@ -48,14 +49,14 @@ class SpacyModelArtifact(BentoServiceArtifact):
     >>> nlp.to_disk("/model")
     >>>
     >>> import bentoml
-    >>> from bentoml.handlers import JsonHandler
+    >>> from bentoml.adapters import JsonInput
     >>> from bentoml.artifact import SpacyModelArtifact
     >>>
     >>> @bentoml.env(auto_pip_dependencies=True)
     >>> @bentoml.artifacts([SpacyModelArtifact('nlp')])
     >>> class SpacyModelService(bentoml.BentoService):
     >>>
-    >>>     @bentoml.api(JsonHandler)
+    >>>     @bentoml.api(input=JsonInput())
     >>>     def predict(self, parsed_json):
     >>>         outputs = self.artifacts.nlp(parsed_json['text'])
     >>>         return outputs
@@ -67,11 +68,29 @@ class SpacyModelArtifact(BentoServiceArtifact):
     >>> svc.pack('nlp', nlp)
     """
 
+    def __init__(self, name):
+        super(SpacyModelArtifact, self).__init__(name)
+
+        self._model = None
+
     def _file_path(self, base_path):
         return os.path.join(base_path, self.name)
 
     def pack(self, model):  # pylint:disable=arguments-differ
-        return _SpacyModelArtifactWrapper(self, model)
+        try:
+            import spacy
+        except ImportError:
+            raise MissingDependencyException(
+                "spacy package is required to use SpacyModelArtifact"
+            )
+
+        if not isinstance(model, spacy.language.Language):
+            raise InvalidArgument(
+                "SpacyModelArtifact can only pack type 'spacy.language.Language'"
+            )
+
+        self._model = model
+        return self
 
     def load(self, path):
         try:
@@ -91,32 +110,12 @@ class SpacyModelArtifact(BentoServiceArtifact):
 
         return self.pack(model)
 
-    @property
-    def pip_dependencies(self):
-        return ['spacy']
-
-
-class _SpacyModelArtifactWrapper(BentoServiceArtifactWrapper):
-    def __init__(self, spec, model):
-        super(_SpacyModelArtifactWrapper, self).__init__(spec)
-
-        try:
-            import spacy
-        except ImportError:
-            raise MissingDependencyException(
-                "spacy package is required to use SpacyModelArtifact"
-            )
-
-        if not isinstance(model, spacy.language.Language):
-            raise InvalidArgument(
-                "SpacyModelArtifact can only pack type 'spacy.language.Language'"
-            )
-
-        self._model = model
+    def set_dependencies(self, env: BentoServiceEnv):
+        env.add_pip_dependencies_if_missing(['spacy'])
 
     def get(self):
         return self._model
 
     def save(self, dst):
-        path = os.path.join(dst, self.spec.name)
+        path = self._file_path(dst)
         return self._model.to_disk(path)

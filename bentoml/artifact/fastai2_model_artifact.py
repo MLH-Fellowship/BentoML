@@ -16,8 +16,9 @@ import os
 import shutil
 import logging
 
-from bentoml.artifact import BentoServiceArtifact, BentoServiceArtifactWrapper
+from bentoml.artifact import BentoServiceArtifact
 from bentoml.exceptions import MissingDependencyException, InvalidArgument
+from bentoml.service_env import BentoServiceEnv
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +50,7 @@ class Fastai2ModelArtifact(BentoServiceArtifact):
     def __init__(self, name):
         super(Fastai2ModelArtifact, self).__init__(name)
         self._file_name = name + '.pkl'
+        self._model = None
 
     def _model_file_path(self, base_path):
         return os.path.join(base_path, self._file_name)
@@ -61,7 +63,8 @@ class Fastai2ModelArtifact(BentoServiceArtifact):
                 "Expect `model` argument to be `fastai2.basics.Learner` instance"
             )
 
-        return _Fastai2ModelArtifactWrapper(self, model)
+        self._model = model
+        return self
 
     def load(self, path):
         fastai2_module = _import_fastai2_module()
@@ -69,8 +72,7 @@ class Fastai2ModelArtifact(BentoServiceArtifact):
         model = fastai2_module.basics.load_learner(path + '/' + self._file_name)
         return self.pack(model)
 
-    @property
-    def pip_dependencies(self):
+    def set_dependencies(self, env: BentoServiceEnv):
         logger.warning(
             "BentoML by default does not include spacy and torchvision package when "
             "using Fastai2ModelArtifact. To make sure BentoML bundle those packages if "
@@ -78,21 +80,13 @@ class Fastai2ModelArtifact(BentoServiceArtifact):
             "BentoService definition file or manually add them via "
             "`@env(pip_dependencies=['torchvision'])` when defining a BentoService"
         )
-        return ['torch', "fastcore", "fastai2"]
-
-
-class _Fastai2ModelArtifactWrapper(BentoServiceArtifactWrapper):
-    def __init__(self, spec, model):
-        super(_Fastai2ModelArtifactWrapper, self).__init__(spec)
-
-        self._model = model
+        env.add_pip_dependencies_if_missing(['torch', "fastcore", "fastai2"])
 
     def save(self, dst):
-        self._model.export(fname=self.spec._file_name)
+        self._model.export(fname=self._file_name)
 
         shutil.copyfile(
-            os.path.join(self._model.path, self.spec._file_name),
-            self.spec._model_file_path(dst),
+            os.path.join(self._model.path, self._file_name), self._model_file_path(dst),
         )
 
     def get(self):
