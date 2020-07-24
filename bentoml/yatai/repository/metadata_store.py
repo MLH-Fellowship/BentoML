@@ -110,7 +110,7 @@ def _bento_orm_obj_to_pb(bento_obj):
     )
 
 
-class BentoMetadataStore(object):
+class BentoMetadataStore(object): 
     def __init__(self, sess_maker):
         self.sess_maker = sess_maker
 
