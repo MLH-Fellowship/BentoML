@@ -40,7 +40,9 @@ def _is_http_url(bundle_path):
 
 
 def _is_remote_path(bundle_path):
-    return is_s3_url(bundle_path) or is_gcs_url(bundle_path) or _is_http_url(bundle_path)
+    return (
+        is_s3_url(bundle_path) or is_gcs_url(bundle_path) or _is_http_url(bundle_path)
+    )
 
 
 @contextmanager
@@ -201,7 +203,6 @@ def load(bundle_path):
     if _is_remote_path(bundle_path):
         with _resolve_remote_bundle_path(bundle_path) as local_bundle_path:
             return load(local_bundle_path)
-    print('asdasd')
     track_load_start()
 
     svc_cls = load_bento_service_class(bundle_path)

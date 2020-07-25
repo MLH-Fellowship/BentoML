@@ -36,7 +36,6 @@ class Repository(BaseRepository):
         if is_s3_url(base_url):
             self._repo = S3Repository(base_url, s3_endpoint_url)
         elif is_gcs_url(base_url):
-            input('Checkpoint 1')
             self._repo = GCSRepository(base_url, s3_endpoint_url)
         else:
             self._repo = LocalRepository(base_url)

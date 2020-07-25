@@ -51,9 +51,7 @@ class GCSRepository(BaseRepository):
             blob = bucket.blob(object_name)
 
             response = blob.generate_signed_url(
-                version="v4",
-                expiration=self._expiration,
-                method="PUT",
+                version="v4", expiration=self._expiration, method="PUT",
             )
         except Exception as e:
             raise YataiRepositoryException(
@@ -63,7 +61,7 @@ class GCSRepository(BaseRepository):
         return BentoUri(
             type=self.uri_type,
             uri='gs://{}/{}'.format(self.bucket, object_name),
-            s3_presigned_url=response,
+            temp_presigned_url=response,
         )
 
     def get(self, bento_name, bento_version):
@@ -76,9 +74,7 @@ class GCSRepository(BaseRepository):
             blob = bucket.blob(object_name)
 
             response = blob.generate_signed_url(
-                version="v4",
-                expiration=self._expiration,
-                method="GET",
+                version="v4", expiration=self._expiration, method="GET",
             )
             return response
         except Exception:  # pylint: disable=broad-except
