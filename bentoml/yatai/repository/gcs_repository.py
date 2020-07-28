@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 
 class GCSRepository(BaseRepository):
-    def __init__(self, base_url, s3_endpoint_url=None):
+    def __init__(self, base_url):
         self.uri_type = BentoUri.GCS
 
         parse_result = urlparse(base_url)
@@ -86,7 +86,7 @@ class GCSRepository(BaseRepository):
             return 'gs://{}/{}'.format(self.bucket, object_name)
 
     def dangerously_delete(self, bento_name, bento_version):
-        # Remove s3 path containing related Bento files
+        # Remove gcs path containing related Bento files
 
         object_name = self._get_object_name(bento_name, bento_version)
 
@@ -94,8 +94,7 @@ class GCSRepository(BaseRepository):
             bucket = self.gcs_client.bucket(self.bucket)
             blob = bucket.blob(object_name)
             blob.delete()
-            # TODO: handle gcs errors
         except Exception as e:
             raise YataiRepositoryException(
-                "Not able to delete object on S3. Error: {}".format(e)
+                "Not able to delete object on GCS. Error: {}".format(e)
             )

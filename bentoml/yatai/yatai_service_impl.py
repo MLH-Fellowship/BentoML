@@ -399,6 +399,10 @@ class YataiService(YataiServicer):
                     bento_pb.uri.temp_presigned_url = self.repo.get(
                         bento_pb.name, bento_pb.version
                     )
+                if bento_pb.uri.type == BentoUri.GCS:
+                    bento_pb.uri.temp_presigned_url = self.repo.get(
+                        bento_pb.name, bento_pb.version
+                    )
                 return GetBentoResponse(status=Status.OK(), bento=bento_pb)
             else:
                 return GetBentoResponse(
