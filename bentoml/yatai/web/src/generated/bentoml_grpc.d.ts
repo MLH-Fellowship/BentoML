@@ -113,7 +113,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DeploymentSpec;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DeploymentSpec;
 
         /**
          * Decodes a DeploymentSpec message from the specified reader or buffer, length delimited.
@@ -122,7 +122,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DeploymentSpec;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DeploymentSpec;
 
         /**
          * Verifies a DeploymentSpec message.
@@ -254,7 +254,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DeploymentSpec.CustomOperatorConfig;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DeploymentSpec.CustomOperatorConfig;
 
             /**
              * Decodes a CustomOperatorConfig message from the specified reader or buffer, length delimited.
@@ -263,7 +263,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DeploymentSpec.CustomOperatorConfig;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DeploymentSpec.CustomOperatorConfig;
 
             /**
              * Verifies a CustomOperatorConfig message.
@@ -402,7 +402,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DeploymentSpec.SageMakerOperatorConfig;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DeploymentSpec.SageMakerOperatorConfig;
 
             /**
              * Decodes a SageMakerOperatorConfig message from the specified reader or buffer, length delimited.
@@ -411,7 +411,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DeploymentSpec.SageMakerOperatorConfig;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DeploymentSpec.SageMakerOperatorConfig;
 
             /**
              * Verifies a SageMakerOperatorConfig message.
@@ -536,7 +536,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DeploymentSpec.AwsLambdaOperatorConfig;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DeploymentSpec.AwsLambdaOperatorConfig;
 
             /**
              * Decodes an AwsLambdaOperatorConfig message from the specified reader or buffer, length delimited.
@@ -545,7 +545,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DeploymentSpec.AwsLambdaOperatorConfig;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DeploymentSpec.AwsLambdaOperatorConfig;
 
             /**
              * Verifies an AwsLambdaOperatorConfig message.
@@ -677,7 +677,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DeploymentSpec.AzureFunctionsOperatorConfig;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DeploymentSpec.AzureFunctionsOperatorConfig;
 
             /**
              * Decodes an AzureFunctionsOperatorConfig message from the specified reader or buffer, length delimited.
@@ -686,7 +686,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DeploymentSpec.AzureFunctionsOperatorConfig;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DeploymentSpec.AzureFunctionsOperatorConfig;
 
             /**
              * Verifies an AzureFunctionsOperatorConfig message.
@@ -812,7 +812,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DeploymentState;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DeploymentState;
 
         /**
          * Decodes a DeploymentState message from the specified reader or buffer, length delimited.
@@ -821,7 +821,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DeploymentState;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DeploymentState;
 
         /**
          * Verifies a DeploymentState message.
@@ -1004,7 +1004,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.Deployment;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.Deployment;
 
         /**
          * Decodes a Deployment message from the specified reader or buffer, length delimited.
@@ -1013,7 +1013,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.Deployment;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.Deployment;
 
         /**
          * Verifies a Deployment message.
@@ -1117,7 +1117,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DeploymentStatus;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DeploymentStatus;
 
         /**
          * Decodes a DeploymentStatus message from the specified reader or buffer, length delimited.
@@ -1126,7 +1126,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DeploymentStatus;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DeploymentStatus;
 
         /**
          * Verifies a DeploymentStatus message.
@@ -1230,7 +1230,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.ApplyDeploymentRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.ApplyDeploymentRequest;
 
         /**
          * Decodes an ApplyDeploymentRequest message from the specified reader or buffer, length delimited.
@@ -1239,7 +1239,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.ApplyDeploymentRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.ApplyDeploymentRequest;
 
         /**
          * Verifies an ApplyDeploymentRequest message.
@@ -1350,7 +1350,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.ApplyDeploymentResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.ApplyDeploymentResponse;
 
         /**
          * Decodes an ApplyDeploymentResponse message from the specified reader or buffer, length delimited.
@@ -1359,7 +1359,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.ApplyDeploymentResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.ApplyDeploymentResponse;
 
         /**
          * Verifies an ApplyDeploymentResponse message.
@@ -1477,7 +1477,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DeleteDeploymentRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DeleteDeploymentRequest;
 
         /**
          * Decodes a DeleteDeploymentRequest message from the specified reader or buffer, length delimited.
@@ -1486,7 +1486,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DeleteDeploymentRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DeleteDeploymentRequest;
 
         /**
          * Verifies a DeleteDeploymentRequest message.
@@ -1590,7 +1590,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DeleteDeploymentResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DeleteDeploymentResponse;
 
         /**
          * Decodes a DeleteDeploymentResponse message from the specified reader or buffer, length delimited.
@@ -1599,7 +1599,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DeleteDeploymentResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DeleteDeploymentResponse;
 
         /**
          * Verifies a DeleteDeploymentResponse message.
@@ -1710,7 +1710,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.GetDeploymentRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.GetDeploymentRequest;
 
         /**
          * Decodes a GetDeploymentRequest message from the specified reader or buffer, length delimited.
@@ -1719,7 +1719,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.GetDeploymentRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.GetDeploymentRequest;
 
         /**
          * Verifies a GetDeploymentRequest message.
@@ -1830,7 +1830,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.GetDeploymentResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.GetDeploymentResponse;
 
         /**
          * Decodes a GetDeploymentResponse message from the specified reader or buffer, length delimited.
@@ -1839,7 +1839,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.GetDeploymentResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.GetDeploymentResponse;
 
         /**
          * Verifies a GetDeploymentResponse message.
@@ -1950,7 +1950,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DescribeDeploymentRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DescribeDeploymentRequest;
 
         /**
          * Decodes a DescribeDeploymentRequest message from the specified reader or buffer, length delimited.
@@ -1959,7 +1959,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DescribeDeploymentRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DescribeDeploymentRequest;
 
         /**
          * Verifies a DescribeDeploymentRequest message.
@@ -2070,7 +2070,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DescribeDeploymentResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DescribeDeploymentResponse;
 
         /**
          * Decodes a DescribeDeploymentResponse message from the specified reader or buffer, length delimited.
@@ -2079,7 +2079,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DescribeDeploymentResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DescribeDeploymentResponse;
 
         /**
          * Verifies a DescribeDeploymentResponse message.
@@ -2225,7 +2225,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.ListDeploymentsRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.ListDeploymentsRequest;
 
         /**
          * Decodes a ListDeploymentsRequest message from the specified reader or buffer, length delimited.
@@ -2234,7 +2234,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.ListDeploymentsRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.ListDeploymentsRequest;
 
         /**
          * Verifies a ListDeploymentsRequest message.
@@ -2361,7 +2361,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.ListDeploymentsResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.ListDeploymentsResponse;
 
         /**
          * Decodes a ListDeploymentsResponse message from the specified reader or buffer, length delimited.
@@ -2370,7 +2370,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.ListDeploymentsResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.ListDeploymentsResponse;
 
         /**
          * Verifies a ListDeploymentsResponse message.
@@ -2481,7 +2481,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.Status;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.Status;
 
         /**
          * Decodes a Status message from the specified reader or buffer, length delimited.
@@ -2490,7 +2490,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.Status;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.Status;
 
         /**
          * Verifies a Status message.
@@ -2588,7 +2588,7 @@ export namespace bentoml {
     type BentoUri$Properties = {
         type?: bentoml.BentoUri.StorageType;
         uri?: string;
-        temp_presigned_url?: string;
+        cloud_presigned_url?: string;
     };
 
     /**
@@ -2620,10 +2620,10 @@ export namespace bentoml {
         public uri?: string;
 
         /**
-         * BentoUri temp_presigned_url.
+         * BentoUri cloud_presigned_url.
          * @type {string|undefined}
          */
-        public temp_presigned_url?: string;
+        public cloud_presigned_url?: string;
 
         /**
          * Creates a new BentoUri instance using the specified properties.
@@ -2656,7 +2656,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.BentoUri;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.BentoUri;
 
         /**
          * Decodes a BentoUri message from the specified reader or buffer, length delimited.
@@ -2665,7 +2665,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.BentoUri;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.BentoUri;
 
         /**
          * Verifies a BentoUri message.
@@ -2828,7 +2828,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.BentoServiceMetadata;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.BentoServiceMetadata;
 
         /**
          * Decodes a BentoServiceMetadata message from the specified reader or buffer, length delimited.
@@ -2837,7 +2837,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.BentoServiceMetadata;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.BentoServiceMetadata;
 
         /**
          * Verifies a BentoServiceMetadata message.
@@ -2971,7 +2971,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.BentoServiceMetadata.BentoServiceEnv;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.BentoServiceMetadata.BentoServiceEnv;
 
             /**
              * Decodes a BentoServiceEnv message from the specified reader or buffer, length delimited.
@@ -2980,7 +2980,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.BentoServiceMetadata.BentoServiceEnv;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.BentoServiceMetadata.BentoServiceEnv;
 
             /**
              * Verifies a BentoServiceEnv message.
@@ -3091,7 +3091,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.BentoServiceMetadata.BentoArtifact;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.BentoServiceMetadata.BentoArtifact;
 
             /**
              * Decodes a BentoArtifact message from the specified reader or buffer, length delimited.
@@ -3100,7 +3100,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.BentoServiceMetadata.BentoArtifact;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.BentoServiceMetadata.BentoArtifact;
 
             /**
              * Verifies a BentoArtifact message.
@@ -3253,7 +3253,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.BentoServiceMetadata.BentoServiceApi;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.BentoServiceMetadata.BentoServiceApi;
 
             /**
              * Decodes a BentoServiceApi message from the specified reader or buffer, length delimited.
@@ -3262,7 +3262,7 @@ export namespace bentoml {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.BentoServiceMetadata.BentoServiceApi;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.BentoServiceMetadata.BentoServiceApi;
 
             /**
              * Verifies a BentoServiceApi message.
@@ -3395,7 +3395,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.Bento;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.Bento;
 
         /**
          * Decodes a Bento message from the specified reader or buffer, length delimited.
@@ -3404,7 +3404,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.Bento;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.Bento;
 
         /**
          * Verifies a Bento message.
@@ -3515,7 +3515,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.AddBentoRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.AddBentoRequest;
 
         /**
          * Decodes an AddBentoRequest message from the specified reader or buffer, length delimited.
@@ -3524,7 +3524,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.AddBentoRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.AddBentoRequest;
 
         /**
          * Verifies an AddBentoRequest message.
@@ -3635,7 +3635,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.AddBentoResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.AddBentoResponse;
 
         /**
          * Decodes an AddBentoResponse message from the specified reader or buffer, length delimited.
@@ -3644,7 +3644,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.AddBentoResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.AddBentoResponse;
 
         /**
          * Verifies an AddBentoResponse message.
@@ -3769,7 +3769,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.UploadStatus;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.UploadStatus;
 
         /**
          * Decodes an UploadStatus message from the specified reader or buffer, length delimited.
@@ -3778,7 +3778,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.UploadStatus;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.UploadStatus;
 
         /**
          * Verifies an UploadStatus message.
@@ -3925,7 +3925,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.UpdateBentoRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.UpdateBentoRequest;
 
         /**
          * Decodes an UpdateBentoRequest message from the specified reader or buffer, length delimited.
@@ -3934,7 +3934,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.UpdateBentoRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.UpdateBentoRequest;
 
         /**
          * Verifies an UpdateBentoRequest message.
@@ -4038,7 +4038,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.UpdateBentoResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.UpdateBentoResponse;
 
         /**
          * Decodes an UpdateBentoResponse message from the specified reader or buffer, length delimited.
@@ -4047,7 +4047,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.UpdateBentoResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.UpdateBentoResponse;
 
         /**
          * Verifies an UpdateBentoResponse message.
@@ -4158,7 +4158,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DangerouslyDeleteBentoRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DangerouslyDeleteBentoRequest;
 
         /**
          * Decodes a DangerouslyDeleteBentoRequest message from the specified reader or buffer, length delimited.
@@ -4167,7 +4167,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DangerouslyDeleteBentoRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DangerouslyDeleteBentoRequest;
 
         /**
          * Verifies a DangerouslyDeleteBentoRequest message.
@@ -4271,7 +4271,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.DangerouslyDeleteBentoResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.DangerouslyDeleteBentoResponse;
 
         /**
          * Decodes a DangerouslyDeleteBentoResponse message from the specified reader or buffer, length delimited.
@@ -4280,7 +4280,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.DangerouslyDeleteBentoResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.DangerouslyDeleteBentoResponse;
 
         /**
          * Verifies a DangerouslyDeleteBentoResponse message.
@@ -4391,7 +4391,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.GetBentoRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.GetBentoRequest;
 
         /**
          * Decodes a GetBentoRequest message from the specified reader or buffer, length delimited.
@@ -4400,7 +4400,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.GetBentoRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.GetBentoRequest;
 
         /**
          * Verifies a GetBentoRequest message.
@@ -4511,7 +4511,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.GetBentoResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.GetBentoResponse;
 
         /**
          * Decodes a GetBentoResponse message from the specified reader or buffer, length delimited.
@@ -4520,7 +4520,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.GetBentoResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.GetBentoResponse;
 
         /**
          * Verifies a GetBentoResponse message.
@@ -4652,7 +4652,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.ListBentoRequest;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.ListBentoRequest;
 
         /**
          * Decodes a ListBentoRequest message from the specified reader or buffer, length delimited.
@@ -4661,7 +4661,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.ListBentoRequest;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.ListBentoRequest;
 
         /**
          * Verifies a ListBentoRequest message.
@@ -4788,7 +4788,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.ListBentoResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.ListBentoResponse;
 
         /**
          * Decodes a ListBentoResponse message from the specified reader or buffer, length delimited.
@@ -4797,7 +4797,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.ListBentoResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.ListBentoResponse;
 
         /**
          * Verifies a ListBentoResponse message.
@@ -4881,7 +4881,7 @@ export namespace bentoml {
          * @param {Yatai_healthCheck_Callback} callback Node-style callback called with the error, if any, and HealthCheckResponse
          * @returns {undefined}
          */
-        public healthCheck(request: (google.protobuf.Empty | { [k: string]: any }), callback: Yatai_healthCheck_Callback): void;
+        public healthCheck(request: (google.protobuf.Empty|{ [k: string]: any }), callback: Yatai_healthCheck_Callback): void;
 
         /**
          * Calls GetYataiServiceVersion.
@@ -4889,7 +4889,7 @@ export namespace bentoml {
          * @param {Yatai_getYataiServiceVersion_Callback} callback Node-style callback called with the error, if any, and GetYataiServiceVersionResponse
          * @returns {undefined}
          */
-        public getYataiServiceVersion(request: (google.protobuf.Empty | { [k: string]: any }), callback: Yatai_getYataiServiceVersion_Callback): void;
+        public getYataiServiceVersion(request: (google.protobuf.Empty|{ [k: string]: any }), callback: Yatai_getYataiServiceVersion_Callback): void;
 
         /**
          * Calls ApplyDeployment.
@@ -4897,7 +4897,7 @@ export namespace bentoml {
          * @param {Yatai_applyDeployment_Callback} callback Node-style callback called with the error, if any, and ApplyDeploymentResponse
          * @returns {undefined}
          */
-        public applyDeployment(request: (bentoml.ApplyDeploymentRequest | { [k: string]: any }), callback: Yatai_applyDeployment_Callback): void;
+        public applyDeployment(request: (bentoml.ApplyDeploymentRequest|{ [k: string]: any }), callback: Yatai_applyDeployment_Callback): void;
 
         /**
          * Calls DeleteDeployment.
@@ -4905,7 +4905,7 @@ export namespace bentoml {
          * @param {Yatai_deleteDeployment_Callback} callback Node-style callback called with the error, if any, and DeleteDeploymentResponse
          * @returns {undefined}
          */
-        public deleteDeployment(request: (bentoml.DeleteDeploymentRequest | { [k: string]: any }), callback: Yatai_deleteDeployment_Callback): void;
+        public deleteDeployment(request: (bentoml.DeleteDeploymentRequest|{ [k: string]: any }), callback: Yatai_deleteDeployment_Callback): void;
 
         /**
          * Calls GetDeployment.
@@ -4913,7 +4913,7 @@ export namespace bentoml {
          * @param {Yatai_getDeployment_Callback} callback Node-style callback called with the error, if any, and GetDeploymentResponse
          * @returns {undefined}
          */
-        public getDeployment(request: (bentoml.GetDeploymentRequest | { [k: string]: any }), callback: Yatai_getDeployment_Callback): void;
+        public getDeployment(request: (bentoml.GetDeploymentRequest|{ [k: string]: any }), callback: Yatai_getDeployment_Callback): void;
 
         /**
          * Calls DescribeDeployment.
@@ -4921,7 +4921,7 @@ export namespace bentoml {
          * @param {Yatai_describeDeployment_Callback} callback Node-style callback called with the error, if any, and DescribeDeploymentResponse
          * @returns {undefined}
          */
-        public describeDeployment(request: (bentoml.DescribeDeploymentRequest | { [k: string]: any }), callback: Yatai_describeDeployment_Callback): void;
+        public describeDeployment(request: (bentoml.DescribeDeploymentRequest|{ [k: string]: any }), callback: Yatai_describeDeployment_Callback): void;
 
         /**
          * Calls ListDeployments.
@@ -4929,7 +4929,7 @@ export namespace bentoml {
          * @param {Yatai_listDeployments_Callback} callback Node-style callback called with the error, if any, and ListDeploymentsResponse
          * @returns {undefined}
          */
-        public listDeployments(request: (bentoml.ListDeploymentsRequest | { [k: string]: any }), callback: Yatai_listDeployments_Callback): void;
+        public listDeployments(request: (bentoml.ListDeploymentsRequest|{ [k: string]: any }), callback: Yatai_listDeployments_Callback): void;
 
         /**
          * Calls AddBento.
@@ -4937,7 +4937,7 @@ export namespace bentoml {
          * @param {Yatai_addBento_Callback} callback Node-style callback called with the error, if any, and AddBentoResponse
          * @returns {undefined}
          */
-        public addBento(request: (bentoml.AddBentoRequest | { [k: string]: any }), callback: Yatai_addBento_Callback): void;
+        public addBento(request: (bentoml.AddBentoRequest|{ [k: string]: any }), callback: Yatai_addBento_Callback): void;
 
         /**
          * Calls UpdateBento.
@@ -4945,7 +4945,7 @@ export namespace bentoml {
          * @param {Yatai_updateBento_Callback} callback Node-style callback called with the error, if any, and UpdateBentoResponse
          * @returns {undefined}
          */
-        public updateBento(request: (bentoml.UpdateBentoRequest | { [k: string]: any }), callback: Yatai_updateBento_Callback): void;
+        public updateBento(request: (bentoml.UpdateBentoRequest|{ [k: string]: any }), callback: Yatai_updateBento_Callback): void;
 
         /**
          * Calls GetBento.
@@ -4953,7 +4953,7 @@ export namespace bentoml {
          * @param {Yatai_getBento_Callback} callback Node-style callback called with the error, if any, and GetBentoResponse
          * @returns {undefined}
          */
-        public getBento(request: (bentoml.GetBentoRequest | { [k: string]: any }), callback: Yatai_getBento_Callback): void;
+        public getBento(request: (bentoml.GetBentoRequest|{ [k: string]: any }), callback: Yatai_getBento_Callback): void;
 
         /**
          * Calls DangerouslyDeleteBento.
@@ -4961,7 +4961,7 @@ export namespace bentoml {
          * @param {Yatai_dangerouslyDeleteBento_Callback} callback Node-style callback called with the error, if any, and DangerouslyDeleteBentoResponse
          * @returns {undefined}
          */
-        public dangerouslyDeleteBento(request: (bentoml.DangerouslyDeleteBentoRequest | { [k: string]: any }), callback: Yatai_dangerouslyDeleteBento_Callback): void;
+        public dangerouslyDeleteBento(request: (bentoml.DangerouslyDeleteBentoRequest|{ [k: string]: any }), callback: Yatai_dangerouslyDeleteBento_Callback): void;
 
         /**
          * Calls ListBento.
@@ -4969,7 +4969,7 @@ export namespace bentoml {
          * @param {Yatai_listBento_Callback} callback Node-style callback called with the error, if any, and ListBentoResponse
          * @returns {undefined}
          */
-        public listBento(request: (bentoml.ListBentoRequest | { [k: string]: any }), callback: Yatai_listBento_Callback): void;
+        public listBento(request: (bentoml.ListBentoRequest|{ [k: string]: any }), callback: Yatai_listBento_Callback): void;
     }
 
     type HealthCheckResponse$Properties = {
@@ -5029,7 +5029,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.HealthCheckResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.HealthCheckResponse;
 
         /**
          * Decodes a HealthCheckResponse message from the specified reader or buffer, length delimited.
@@ -5038,7 +5038,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.HealthCheckResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.HealthCheckResponse;
 
         /**
          * Verifies a HealthCheckResponse message.
@@ -5149,7 +5149,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.GetYataiServiceVersionResponse;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.GetYataiServiceVersionResponse;
 
         /**
          * Decodes a GetYataiServiceVersionResponse message from the specified reader or buffer, length delimited.
@@ -5158,7 +5158,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.GetYataiServiceVersionResponse;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.GetYataiServiceVersionResponse;
 
         /**
          * Verifies a GetYataiServiceVersionResponse message.
@@ -5262,7 +5262,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): bentoml.Chunk;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): bentoml.Chunk;
 
         /**
          * Decodes a Chunk message from the specified reader or buffer, length delimited.
@@ -5271,7 +5271,7 @@ export namespace bentoml {
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): bentoml.Chunk;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): bentoml.Chunk;
 
         /**
          * Verifies a Chunk message.
@@ -5414,7 +5414,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): google.protobuf.Struct;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Struct;
 
             /**
              * Decodes a Struct message from the specified reader or buffer, length delimited.
@@ -5423,7 +5423,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): google.protobuf.Struct;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Struct;
 
             /**
              * Verifies a Struct message.
@@ -5569,7 +5569,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): google.protobuf.Value;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Value;
 
             /**
              * Decodes a Value message from the specified reader or buffer, length delimited.
@@ -5578,7 +5578,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): google.protobuf.Value;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Value;
 
             /**
              * Verifies a Value message.
@@ -5693,7 +5693,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): google.protobuf.ListValue;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.ListValue;
 
             /**
              * Decodes a ListValue message from the specified reader or buffer, length delimited.
@@ -5702,7 +5702,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): google.protobuf.ListValue;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.ListValue;
 
             /**
              * Verifies a ListValue message.
@@ -5750,7 +5750,7 @@ export namespace google {
         }
 
         type Timestamp$Properties = {
-            seconds?: (number | Long);
+            seconds?: (number|Long);
             nanos?: number;
         };
 
@@ -5774,7 +5774,7 @@ export namespace google {
              * Timestamp seconds.
              * @type {number|Long|undefined}
              */
-            public seconds?: (number | Long);
+            public seconds?: (number|Long);
 
             /**
              * Timestamp nanos.
@@ -5813,7 +5813,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): google.protobuf.Timestamp;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Timestamp;
 
             /**
              * Decodes a Timestamp message from the specified reader or buffer, length delimited.
@@ -5822,7 +5822,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): google.protobuf.Timestamp;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Timestamp;
 
             /**
              * Verifies a Timestamp message.
@@ -5918,7 +5918,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): google.protobuf.Empty;
+            public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): google.protobuf.Empty;
 
             /**
              * Decodes an Empty message from the specified reader or buffer, length delimited.
@@ -5927,7 +5927,7 @@ export namespace google {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): google.protobuf.Empty;
+            public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): google.protobuf.Empty;
 
             /**
              * Verifies an Empty message.

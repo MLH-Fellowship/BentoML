@@ -61,7 +61,7 @@ class GCSRepository(BaseRepository):
         return BentoUri(
             type=self.uri_type,
             uri='gs://{}/{}'.format(self.bucket, object_name),
-            temp_presigned_url=response,
+            cloud_presigned_url=response,
         )
 
     def get(self, bento_name, bento_version):

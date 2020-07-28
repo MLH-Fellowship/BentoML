@@ -16,7 +16,7 @@ export const bentoml = $root.bentoml = (() => {
      */
     const bentoml = {};
 
-    bentoml.DeploymentSpec = (function () {
+    bentoml.DeploymentSpec = (function() {
 
         /**
          * Properties of a DeploymentSpec.
@@ -158,30 +158,30 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.bento_name = reader.string();
-                        break;
-                    case 2:
-                        message.bento_version = reader.string();
-                        break;
-                    case 3:
-                        message.operator = reader.uint32();
-                        break;
-                    case 4:
-                        message.custom_operator_config = $root.bentoml.DeploymentSpec.CustomOperatorConfig.decode(reader, reader.uint32());
-                        break;
-                    case 5:
-                        message.sagemaker_operator_config = $root.bentoml.DeploymentSpec.SageMakerOperatorConfig.decode(reader, reader.uint32());
-                        break;
-                    case 6:
-                        message.aws_lambda_operator_config = $root.bentoml.DeploymentSpec.AwsLambdaOperatorConfig.decode(reader, reader.uint32());
-                        break;
-                    case 7:
-                        message.azure_functions_operator_config = $root.bentoml.DeploymentSpec.AzureFunctionsOperatorConfig.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.bento_name = reader.string();
+                    break;
+                case 2:
+                    message.bento_version = reader.string();
+                    break;
+                case 3:
+                    message.operator = reader.uint32();
+                    break;
+                case 4:
+                    message.custom_operator_config = $root.bentoml.DeploymentSpec.CustomOperatorConfig.decode(reader, reader.uint32());
+                    break;
+                case 5:
+                    message.sagemaker_operator_config = $root.bentoml.DeploymentSpec.SageMakerOperatorConfig.decode(reader, reader.uint32());
+                    break;
+                case 6:
+                    message.aws_lambda_operator_config = $root.bentoml.DeploymentSpec.AwsLambdaOperatorConfig.decode(reader, reader.uint32());
+                    break;
+                case 7:
+                    message.azure_functions_operator_config = $root.bentoml.DeploymentSpec.AzureFunctionsOperatorConfig.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -217,14 +217,14 @@ export const bentoml = $root.bentoml = (() => {
                     return "bento_version: string expected";
             if (message.operator != null)
                 switch (message.operator) {
-                    default:
-                        return "operator: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                        break;
+                default:
+                    return "operator: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    break;
                 }
             if (message.custom_operator_config != null) {
                 properties.deployment_operator_config = 1;
@@ -273,26 +273,26 @@ export const bentoml = $root.bentoml = (() => {
             if (object.bento_version != null)
                 message.bento_version = String(object.bento_version);
             switch (object.operator) {
-                case "UNSET":
-                case 0:
-                    message.operator = 0;
-                    break;
-                case "CUSTOM":
-                case 1:
-                    message.operator = 1;
-                    break;
-                case "AWS_SAGEMAKER":
-                case 2:
-                    message.operator = 2;
-                    break;
-                case "AWS_LAMBDA":
-                case 3:
-                    message.operator = 3;
-                    break;
-                case "AZURE_FUNCTIONS":
-                case 4:
-                    message.operator = 4;
-                    break;
+            case "UNSET":
+            case 0:
+                message.operator = 0;
+                break;
+            case "CUSTOM":
+            case 1:
+                message.operator = 1;
+                break;
+            case "AWS_SAGEMAKER":
+            case 2:
+                message.operator = 2;
+                break;
+            case "AWS_LAMBDA":
+            case 3:
+                message.operator = 3;
+                break;
+            case "AZURE_FUNCTIONS":
+            case 4:
+                message.operator = 4;
+                break;
             }
             if (object.custom_operator_config != null) {
                 if (typeof object.custom_operator_config !== "object")
@@ -398,7 +398,7 @@ export const bentoml = $root.bentoml = (() => {
          * @property {number} AWS_LAMBDA=3 AWS_LAMBDA value
          * @property {number} AZURE_FUNCTIONS=4 AZURE_FUNCTIONS value
          */
-        DeploymentSpec.DeploymentOperator = (function () {
+        DeploymentSpec.DeploymentOperator = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "UNSET"] = 0;
             values[valuesById[1] = "CUSTOM"] = 1;
@@ -408,7 +408,7 @@ export const bentoml = $root.bentoml = (() => {
             return values;
         })();
 
-        DeploymentSpec.CustomOperatorConfig = (function () {
+        DeploymentSpec.CustomOperatorConfig = (function() {
 
             /**
              * Properties of a CustomOperatorConfig.
@@ -492,15 +492,15 @@ export const bentoml = $root.bentoml = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            message.name = reader.string();
-                            break;
-                        case 2:
-                            message.config = $root.google.protobuf.Struct.decode(reader, reader.uint32());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        message.name = reader.string();
+                        break;
+                    case 2:
+                        message.config = $root.google.protobuf.Struct.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -607,7 +607,7 @@ export const bentoml = $root.bentoml = (() => {
             return CustomOperatorConfig;
         })();
 
-        DeploymentSpec.SageMakerOperatorConfig = (function () {
+        DeploymentSpec.SageMakerOperatorConfig = (function() {
 
             /**
              * Properties of a SageMakerOperatorConfig.
@@ -727,27 +727,27 @@ export const bentoml = $root.bentoml = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            message.region = reader.string();
-                            break;
-                        case 2:
-                            message.instance_type = reader.string();
-                            break;
-                        case 3:
-                            message.instance_count = reader.int32();
-                            break;
-                        case 4:
-                            message.api_name = reader.string();
-                            break;
-                        case 5:
-                            message.num_of_gunicorn_workers_per_instance = reader.int32();
-                            break;
-                        case 6:
-                            message.timeout = reader.int32();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        message.region = reader.string();
+                        break;
+                    case 2:
+                        message.instance_type = reader.string();
+                        break;
+                    case 3:
+                        message.instance_count = reader.int32();
+                        break;
+                    case 4:
+                        message.api_name = reader.string();
+                        break;
+                    case 5:
+                        message.num_of_gunicorn_workers_per_instance = reader.int32();
+                        break;
+                    case 6:
+                        message.timeout = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -881,7 +881,7 @@ export const bentoml = $root.bentoml = (() => {
             return SageMakerOperatorConfig;
         })();
 
-        DeploymentSpec.AwsLambdaOperatorConfig = (function () {
+        DeploymentSpec.AwsLambdaOperatorConfig = (function() {
 
             /**
              * Properties of an AwsLambdaOperatorConfig.
@@ -983,21 +983,21 @@ export const bentoml = $root.bentoml = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            message.region = reader.string();
-                            break;
-                        case 2:
-                            message.api_name = reader.string();
-                            break;
-                        case 3:
-                            message.memory_size = reader.int32();
-                            break;
-                        case 4:
-                            message.timeout = reader.int32();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        message.region = reader.string();
+                        break;
+                    case 2:
+                        message.api_name = reader.string();
+                        break;
+                    case 3:
+                        message.memory_size = reader.int32();
+                        break;
+                    case 4:
+                        message.timeout = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -1115,7 +1115,7 @@ export const bentoml = $root.bentoml = (() => {
             return AwsLambdaOperatorConfig;
         })();
 
-        DeploymentSpec.AzureFunctionsOperatorConfig = (function () {
+        DeploymentSpec.AzureFunctionsOperatorConfig = (function() {
 
             /**
              * Properties of an AzureFunctionsOperatorConfig.
@@ -1226,24 +1226,24 @@ export const bentoml = $root.bentoml = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            message.location = reader.string();
-                            break;
-                        case 2:
-                            message.premium_plan_sku = reader.string();
-                            break;
-                        case 3:
-                            message.min_instances = reader.int32();
-                            break;
-                        case 4:
-                            message.max_burst = reader.int32();
-                            break;
-                        case 5:
-                            message.function_auth_level = reader.string();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        message.location = reader.string();
+                        break;
+                    case 2:
+                        message.premium_plan_sku = reader.string();
+                        break;
+                    case 3:
+                        message.min_instances = reader.int32();
+                        break;
+                    case 4:
+                        message.max_burst = reader.int32();
+                        break;
+                    case 5:
+                        message.function_auth_level = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -1372,7 +1372,7 @@ export const bentoml = $root.bentoml = (() => {
         return DeploymentSpec;
     })();
 
-    bentoml.DeploymentState = (function () {
+    bentoml.DeploymentState = (function() {
 
         /**
          * Properties of a DeploymentState.
@@ -1474,21 +1474,21 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.state = reader.uint32();
-                        break;
-                    case 2:
-                        message.error_message = reader.string();
-                        break;
-                    case 3:
-                        message.info_json = reader.string();
-                        break;
-                    case 4:
-                        message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.state = reader.uint32();
+                    break;
+                case 2:
+                    message.error_message = reader.string();
+                    break;
+                case 3:
+                    message.info_json = reader.string();
+                    break;
+                case 4:
+                    message.timestamp = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -1517,18 +1517,18 @@ export const bentoml = $root.bentoml = (() => {
                 return "object expected";
             if (message.state != null)
                 switch (message.state) {
-                    default:
-                        return "state: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                        break;
+                default:
+                    return "state: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                    break;
                 }
             if (message.error_message != null)
                 if (!$util.isString(message.error_message))
@@ -1554,42 +1554,42 @@ export const bentoml = $root.bentoml = (() => {
                 return object;
             let message = new $root.bentoml.DeploymentState();
             switch (object.state) {
-                case "PENDING":
-                case 0:
-                    message.state = 0;
-                    break;
-                case "RUNNING":
-                case 1:
-                    message.state = 1;
-                    break;
-                case "SUCCEEDED":
-                case 2:
-                    message.state = 2;
-                    break;
-                case "FAILED":
-                case 3:
-                    message.state = 3;
-                    break;
-                case "UNKNOWN":
-                case 4:
-                    message.state = 4;
-                    break;
-                case "COMPLETED":
-                case 5:
-                    message.state = 5;
-                    break;
-                case "CRASH_LOOP_BACK_OFF":
-                case 6:
-                    message.state = 6;
-                    break;
-                case "ERROR":
-                case 7:
-                    message.state = 7;
-                    break;
-                case "INACTIVATED":
-                case 8:
-                    message.state = 8;
-                    break;
+            case "PENDING":
+            case 0:
+                message.state = 0;
+                break;
+            case "RUNNING":
+            case 1:
+                message.state = 1;
+                break;
+            case "SUCCEEDED":
+            case 2:
+                message.state = 2;
+                break;
+            case "FAILED":
+            case 3:
+                message.state = 3;
+                break;
+            case "UNKNOWN":
+            case 4:
+                message.state = 4;
+                break;
+            case "COMPLETED":
+            case 5:
+                message.state = 5;
+                break;
+            case "CRASH_LOOP_BACK_OFF":
+            case 6:
+                message.state = 6;
+                break;
+            case "ERROR":
+            case 7:
+                message.state = 7;
+                break;
+            case "INACTIVATED":
+            case 8:
+                message.state = 8;
+                break;
             }
             if (object.error_message != null)
                 message.error_message = String(object.error_message);
@@ -1671,7 +1671,7 @@ export const bentoml = $root.bentoml = (() => {
          * @property {number} ERROR=7 ERROR value
          * @property {number} INACTIVATED=8 INACTIVATED value
          */
-        DeploymentState.State = (function () {
+        DeploymentState.State = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "PENDING"] = 0;
             values[valuesById[1] = "RUNNING"] = 1;
@@ -1688,7 +1688,7 @@ export const bentoml = $root.bentoml = (() => {
         return DeploymentState;
     })();
 
-    bentoml.Deployment = (function () {
+    bentoml.Deployment = (function() {
 
         /**
          * Properties of a Deployment.
@@ -1830,43 +1830,43 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.namespace = reader.string();
-                        break;
-                    case 2:
-                        message.name = reader.string();
-                        break;
-                    case 3:
-                        message.spec = $root.bentoml.DeploymentSpec.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.state = $root.bentoml.DeploymentState.decode(reader, reader.uint32());
-                        break;
-                    case 5:
-                        reader.skip().pos++;
-                        if (message.annotations === $util.emptyObject)
-                            message.annotations = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.annotations[key] = reader.string();
-                        break;
-                    case 6:
-                        reader.skip().pos++;
-                        if (message.labels === $util.emptyObject)
-                            message.labels = {};
-                        key = reader.string();
-                        reader.pos++;
-                        message.labels[key] = reader.string();
-                        break;
-                    case 7:
-                        message.created_at = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                        break;
-                    case 8:
-                        message.last_updated_at = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.namespace = reader.string();
+                    break;
+                case 2:
+                    message.name = reader.string();
+                    break;
+                case 3:
+                    message.spec = $root.bentoml.DeploymentSpec.decode(reader, reader.uint32());
+                    break;
+                case 4:
+                    message.state = $root.bentoml.DeploymentState.decode(reader, reader.uint32());
+                    break;
+                case 5:
+                    reader.skip().pos++;
+                    if (message.annotations === $util.emptyObject)
+                        message.annotations = {};
+                    key = reader.string();
+                    reader.pos++;
+                    message.annotations[key] = reader.string();
+                    break;
+                case 6:
+                    reader.skip().pos++;
+                    if (message.labels === $util.emptyObject)
+                        message.labels = {};
+                    key = reader.string();
+                    reader.pos++;
+                    message.labels[key] = reader.string();
+                    break;
+                case 7:
+                    message.created_at = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 8:
+                    message.last_updated_at = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -2065,7 +2065,7 @@ export const bentoml = $root.bentoml = (() => {
         return Deployment;
     })();
 
-    bentoml.DeploymentStatus = (function () {
+    bentoml.DeploymentStatus = (function() {
 
         /**
          * Properties of a DeploymentStatus.
@@ -2140,12 +2140,12 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.state = $root.bentoml.DeploymentState.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.state = $root.bentoml.DeploymentState.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -2243,7 +2243,7 @@ export const bentoml = $root.bentoml = (() => {
         return DeploymentStatus;
     })();
 
-    bentoml.ApplyDeploymentRequest = (function () {
+    bentoml.ApplyDeploymentRequest = (function() {
 
         /**
          * Properties of an ApplyDeploymentRequest.
@@ -2318,12 +2318,12 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.deployment = $root.bentoml.Deployment.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.deployment = $root.bentoml.Deployment.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -2421,7 +2421,7 @@ export const bentoml = $root.bentoml = (() => {
         return ApplyDeploymentRequest;
     })();
 
-    bentoml.ApplyDeploymentResponse = (function () {
+    bentoml.ApplyDeploymentResponse = (function() {
 
         /**
          * Properties of an ApplyDeploymentResponse.
@@ -2505,15 +2505,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.deployment = $root.bentoml.Deployment.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.deployment = $root.bentoml.Deployment.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -2625,7 +2625,7 @@ export const bentoml = $root.bentoml = (() => {
         return ApplyDeploymentResponse;
     })();
 
-    bentoml.DeleteDeploymentRequest = (function () {
+    bentoml.DeleteDeploymentRequest = (function() {
 
         /**
          * Properties of a DeleteDeploymentRequest.
@@ -2718,18 +2718,18 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.deployment_name = reader.string();
-                        break;
-                    case 2:
-                        message.namespace = reader.string();
-                        break;
-                    case 3:
-                        message.force_delete = reader.bool();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.deployment_name = reader.string();
+                    break;
+                case 2:
+                    message.namespace = reader.string();
+                    break;
+                case 3:
+                    message.force_delete = reader.bool();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -2839,7 +2839,7 @@ export const bentoml = $root.bentoml = (() => {
         return DeleteDeploymentRequest;
     })();
 
-    bentoml.DeleteDeploymentResponse = (function () {
+    bentoml.DeleteDeploymentResponse = (function() {
 
         /**
          * Properties of a DeleteDeploymentResponse.
@@ -2914,12 +2914,12 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -3017,7 +3017,7 @@ export const bentoml = $root.bentoml = (() => {
         return DeleteDeploymentResponse;
     })();
 
-    bentoml.GetDeploymentRequest = (function () {
+    bentoml.GetDeploymentRequest = (function() {
 
         /**
          * Properties of a GetDeploymentRequest.
@@ -3101,15 +3101,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.deployment_name = reader.string();
-                        break;
-                    case 2:
-                        message.namespace = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.deployment_name = reader.string();
+                    break;
+                case 2:
+                    message.namespace = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -3211,7 +3211,7 @@ export const bentoml = $root.bentoml = (() => {
         return GetDeploymentRequest;
     })();
 
-    bentoml.GetDeploymentResponse = (function () {
+    bentoml.GetDeploymentResponse = (function() {
 
         /**
          * Properties of a GetDeploymentResponse.
@@ -3295,15 +3295,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.deployment = $root.bentoml.Deployment.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.deployment = $root.bentoml.Deployment.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -3415,7 +3415,7 @@ export const bentoml = $root.bentoml = (() => {
         return GetDeploymentResponse;
     })();
 
-    bentoml.DescribeDeploymentRequest = (function () {
+    bentoml.DescribeDeploymentRequest = (function() {
 
         /**
          * Properties of a DescribeDeploymentRequest.
@@ -3499,15 +3499,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.deployment_name = reader.string();
-                        break;
-                    case 2:
-                        message.namespace = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.deployment_name = reader.string();
+                    break;
+                case 2:
+                    message.namespace = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -3609,7 +3609,7 @@ export const bentoml = $root.bentoml = (() => {
         return DescribeDeploymentRequest;
     })();
 
-    bentoml.DescribeDeploymentResponse = (function () {
+    bentoml.DescribeDeploymentResponse = (function() {
 
         /**
          * Properties of a DescribeDeploymentResponse.
@@ -3693,15 +3693,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.state = $root.bentoml.DeploymentState.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.state = $root.bentoml.DeploymentState.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -3813,7 +3813,7 @@ export const bentoml = $root.bentoml = (() => {
         return DescribeDeploymentResponse;
     })();
 
-    bentoml.ListDeploymentsRequest = (function () {
+    bentoml.ListDeploymentsRequest = (function() {
 
         /**
          * Properties of a ListDeploymentsRequest.
@@ -3942,30 +3942,30 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.namespace = reader.string();
-                        break;
-                    case 2:
-                        message.offset = reader.int32();
-                        break;
-                    case 3:
-                        message.limit = reader.int32();
-                        break;
-                    case 4:
-                        message.operator = reader.uint32();
-                        break;
-                    case 5:
-                        message.order_by = reader.uint32();
-                        break;
-                    case 6:
-                        message.ascending_order = reader.bool();
-                        break;
-                    case 7:
-                        message.labels_query = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.namespace = reader.string();
+                    break;
+                case 2:
+                    message.offset = reader.int32();
+                    break;
+                case 3:
+                    message.limit = reader.int32();
+                    break;
+                case 4:
+                    message.operator = reader.uint32();
+                    break;
+                case 5:
+                    message.order_by = reader.uint32();
+                    break;
+                case 6:
+                    message.ascending_order = reader.bool();
+                    break;
+                case 7:
+                    message.labels_query = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -4003,22 +4003,22 @@ export const bentoml = $root.bentoml = (() => {
                     return "limit: integer expected";
             if (message.operator != null)
                 switch (message.operator) {
-                    default:
-                        return "operator: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                        break;
+                default:
+                    return "operator: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    break;
                 }
             if (message.order_by != null)
                 switch (message.order_by) {
-                    default:
-                        return "order_by: enum value expected";
-                    case 0:
-                    case 1:
-                        break;
+                default:
+                    return "order_by: enum value expected";
+                case 0:
+                case 1:
+                    break;
                 }
             if (message.ascending_order != null)
                 if (typeof message.ascending_order !== "boolean")
@@ -4045,36 +4045,36 @@ export const bentoml = $root.bentoml = (() => {
             if (object.limit != null)
                 message.limit = object.limit | 0;
             switch (object.operator) {
-                case "UNSET":
-                case 0:
-                    message.operator = 0;
-                    break;
-                case "CUSTOM":
-                case 1:
-                    message.operator = 1;
-                    break;
-                case "AWS_SAGEMAKER":
-                case 2:
-                    message.operator = 2;
-                    break;
-                case "AWS_LAMBDA":
-                case 3:
-                    message.operator = 3;
-                    break;
-                case "AZURE_FUNCTIONS":
-                case 4:
-                    message.operator = 4;
-                    break;
+            case "UNSET":
+            case 0:
+                message.operator = 0;
+                break;
+            case "CUSTOM":
+            case 1:
+                message.operator = 1;
+                break;
+            case "AWS_SAGEMAKER":
+            case 2:
+                message.operator = 2;
+                break;
+            case "AWS_LAMBDA":
+            case 3:
+                message.operator = 3;
+                break;
+            case "AZURE_FUNCTIONS":
+            case 4:
+                message.operator = 4;
+                break;
             }
             switch (object.order_by) {
-                case "created_at":
-                case 0:
-                    message.order_by = 0;
-                    break;
-                case "name":
-                case 1:
-                    message.order_by = 1;
-                    break;
+            case "created_at":
+            case 0:
+                message.order_by = 0;
+                break;
+            case "name":
+            case 1:
+                message.order_by = 1;
+                break;
             }
             if (object.ascending_order != null)
                 message.ascending_order = Boolean(object.ascending_order);
@@ -4153,7 +4153,7 @@ export const bentoml = $root.bentoml = (() => {
          * @property {number} created_at=0 created_at value
          * @property {number} name=1 name value
          */
-        ListDeploymentsRequest.SORTABLE_COLUMN = (function () {
+        ListDeploymentsRequest.SORTABLE_COLUMN = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "created_at"] = 0;
             values[valuesById[1] = "name"] = 1;
@@ -4163,7 +4163,7 @@ export const bentoml = $root.bentoml = (() => {
         return ListDeploymentsRequest;
     })();
 
-    bentoml.ListDeploymentsResponse = (function () {
+    bentoml.ListDeploymentsResponse = (function() {
 
         /**
          * Properties of a ListDeploymentsResponse.
@@ -4249,17 +4249,17 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        if (!(message.deployments && message.deployments.length))
-                            message.deployments = [];
-                        message.deployments.push($root.bentoml.Deployment.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    if (!(message.deployments && message.deployments.length))
+                        message.deployments = [];
+                    message.deployments.push($root.bentoml.Deployment.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -4383,7 +4383,7 @@ export const bentoml = $root.bentoml = (() => {
         return ListDeploymentsResponse;
     })();
 
-    bentoml.Status = (function () {
+    bentoml.Status = (function() {
 
         /**
          * Properties of a Status.
@@ -4467,15 +4467,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status_code = reader.uint32();
-                        break;
-                    case 2:
-                        message.error_message = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status_code = reader.uint32();
+                    break;
+                case 2:
+                    message.error_message = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -4504,27 +4504,27 @@ export const bentoml = $root.bentoml = (() => {
                 return "object expected";
             if (message.status_code != null)
                 switch (message.status_code) {
-                    default:
-                        return "status_code: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 16:
-                    case 8:
-                    case 9:
-                    case 10:
-                    case 11:
-                    case 12:
-                    case 13:
-                    case 14:
-                    case 15:
-                    case 20:
-                        break;
+                default:
+                    return "status_code: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 16:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 20:
+                    break;
                 }
             if (message.error_message != null)
                 if (!$util.isString(message.error_message))
@@ -4542,78 +4542,78 @@ export const bentoml = $root.bentoml = (() => {
                 return object;
             let message = new $root.bentoml.Status();
             switch (object.status_code) {
-                case "OK":
-                case 0:
-                    message.status_code = 0;
-                    break;
-                case "CANCELLED":
-                case 1:
-                    message.status_code = 1;
-                    break;
-                case "UNKNOWN":
-                case 2:
-                    message.status_code = 2;
-                    break;
-                case "INVALID_ARGUMENT":
-                case 3:
-                    message.status_code = 3;
-                    break;
-                case "DEADLINE_EXCEEDED":
-                case 4:
-                    message.status_code = 4;
-                    break;
-                case "NOT_FOUND":
-                case 5:
-                    message.status_code = 5;
-                    break;
-                case "ALREADY_EXISTS":
-                case 6:
-                    message.status_code = 6;
-                    break;
-                case "PERMISSION_DENIED":
-                case 7:
-                    message.status_code = 7;
-                    break;
-                case "UNAUTHENTICATED":
-                case 16:
-                    message.status_code = 16;
-                    break;
-                case "RESOURCE_EXHAUSTED":
-                case 8:
-                    message.status_code = 8;
-                    break;
-                case "FAILED_PRECONDITION":
-                case 9:
-                    message.status_code = 9;
-                    break;
-                case "ABORTED":
-                case 10:
-                    message.status_code = 10;
-                    break;
-                case "OUT_OF_RANGE":
-                case 11:
-                    message.status_code = 11;
-                    break;
-                case "UNIMPLEMENTED":
-                case 12:
-                    message.status_code = 12;
-                    break;
-                case "INTERNAL":
-                case 13:
-                    message.status_code = 13;
-                    break;
-                case "UNAVAILABLE":
-                case 14:
-                    message.status_code = 14;
-                    break;
-                case "DATA_LOSS":
-                case 15:
-                    message.status_code = 15;
-                    break;
-                case "DO_NOT_USE_RESERVED_FOR_FUTURE_EXPANSION_USE_DEFAULT_IN_SWITCH_INSTEAD_":
-                case 20:
-                    message.status_code = 20;
-                    break;
+            case "OK":
+            case 0:
+                message.status_code = 0;
+                break;
+            case "CANCELLED":
+            case 1:
+                message.status_code = 1;
+                break;
+            case "UNKNOWN":
+            case 2:
+                message.status_code = 2;
+                break;
+            case "INVALID_ARGUMENT":
+            case 3:
+                message.status_code = 3;
+                break;
+            case "DEADLINE_EXCEEDED":
+            case 4:
+                message.status_code = 4;
+                break;
+            case "NOT_FOUND":
+            case 5:
+                message.status_code = 5;
+                break;
+            case "ALREADY_EXISTS":
+            case 6:
+                message.status_code = 6;
+                break;
+            case "PERMISSION_DENIED":
+            case 7:
+                message.status_code = 7;
+                break;
+            case "UNAUTHENTICATED":
+            case 16:
+                message.status_code = 16;
+                break;
+            case "RESOURCE_EXHAUSTED":
+            case 8:
+                message.status_code = 8;
+                break;
+            case "FAILED_PRECONDITION":
+            case 9:
+                message.status_code = 9;
+                break;
+            case "ABORTED":
+            case 10:
+                message.status_code = 10;
+                break;
+            case "OUT_OF_RANGE":
+            case 11:
+                message.status_code = 11;
+                break;
+            case "UNIMPLEMENTED":
+            case 12:
+                message.status_code = 12;
+                break;
+            case "INTERNAL":
+            case 13:
+                message.status_code = 13;
+                break;
+            case "UNAVAILABLE":
+            case 14:
+                message.status_code = 14;
+                break;
+            case "DATA_LOSS":
+            case 15:
+                message.status_code = 15;
+                break;
+            case "DO_NOT_USE_RESERVED_FOR_FUTURE_EXPANSION_USE_DEFAULT_IN_SWITCH_INSTEAD_":
+            case 20:
+                message.status_code = 20;
+                break;
             }
             if (object.error_message != null)
                 message.error_message = String(object.error_message);
@@ -4691,7 +4691,7 @@ export const bentoml = $root.bentoml = (() => {
          * @property {number} DATA_LOSS=15 DATA_LOSS value
          * @property {number} DO_NOT_USE_RESERVED_FOR_FUTURE_EXPANSION_USE_DEFAULT_IN_SWITCH_INSTEAD_=20 DO_NOT_USE_RESERVED_FOR_FUTURE_EXPANSION_USE_DEFAULT_IN_SWITCH_INSTEAD_ value
          */
-        Status.Code = (function () {
+        Status.Code = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "OK"] = 0;
             values[valuesById[1] = "CANCELLED"] = 1;
@@ -4717,7 +4717,7 @@ export const bentoml = $root.bentoml = (() => {
         return Status;
     })();
 
-    bentoml.BentoUri = (function () {
+    bentoml.BentoUri = (function() {
 
         /**
          * Properties of a BentoUri.
@@ -4725,7 +4725,7 @@ export const bentoml = $root.bentoml = (() => {
          * @type {Object}
          * @property {bentoml.BentoUri.StorageType} [type] BentoUri type.
          * @property {string} [uri] BentoUri uri.
-         * @property {string} [temp_presigned_url] BentoUri temp_presigned_url.
+         * @property {string} [cloud_presigned_url] BentoUri cloud_presigned_url.
          */
 
         /**
@@ -4753,10 +4753,10 @@ export const bentoml = $root.bentoml = (() => {
         BentoUri.prototype.uri = "";
 
         /**
-         * BentoUri temp_presigned_url.
+         * BentoUri cloud_presigned_url.
          * @type {string|undefined}
          */
-        BentoUri.prototype.temp_presigned_url = "";
+        BentoUri.prototype.cloud_presigned_url = "";
 
         /**
          * Creates a new BentoUri instance using the specified properties.
@@ -4780,8 +4780,8 @@ export const bentoml = $root.bentoml = (() => {
                 writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.type);
             if (message.uri != null && message.hasOwnProperty("uri"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.uri);
-            if (message.temp_presigned_url != null && message.hasOwnProperty("temp_presigned_url"))
-                writer.uint32(/* id 3, wireType 2 =*/26).string(message.temp_presigned_url);
+            if (message.cloud_presigned_url != null && message.hasOwnProperty("cloud_presigned_url"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.cloud_presigned_url);
             return writer;
         };
 
@@ -4810,18 +4810,18 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.type = reader.uint32();
-                        break;
-                    case 2:
-                        message.uri = reader.string();
-                        break;
-                    case 3:
-                        message.temp_presigned_url = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.type = reader.uint32();
+                    break;
+                case 2:
+                    message.uri = reader.string();
+                    break;
+                case 3:
+                    message.cloud_presigned_url = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -4850,22 +4850,22 @@ export const bentoml = $root.bentoml = (() => {
                 return "object expected";
             if (message.type != null)
                 switch (message.type) {
-                    default:
-                        return "type: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        break;
+                default:
+                    return "type: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    break;
                 }
             if (message.uri != null)
                 if (!$util.isString(message.uri))
                     return "uri: string expected";
-            if (message.temp_presigned_url != null)
-                if (!$util.isString(message.temp_presigned_url))
-                    return "temp_presigned_url: string expected";
+            if (message.cloud_presigned_url != null)
+                if (!$util.isString(message.cloud_presigned_url))
+                    return "cloud_presigned_url: string expected";
             return null;
         };
 
@@ -4879,35 +4879,35 @@ export const bentoml = $root.bentoml = (() => {
                 return object;
             let message = new $root.bentoml.BentoUri();
             switch (object.type) {
-                case "UNSET":
-                case 0:
-                    message.type = 0;
-                    break;
-                case "LOCAL":
-                case 1:
-                    message.type = 1;
-                    break;
-                case "S3":
-                case 2:
-                    message.type = 2;
-                    break;
-                case "GCS":
-                case 3:
-                    message.type = 3;
-                    break;
-                case "AZURE_BLOB_STORAGE":
-                case 4:
-                    message.type = 4;
-                    break;
-                case "HDFS":
-                case 5:
-                    message.type = 5;
-                    break;
+            case "UNSET":
+            case 0:
+                message.type = 0;
+                break;
+            case "LOCAL":
+            case 1:
+                message.type = 1;
+                break;
+            case "S3":
+            case 2:
+                message.type = 2;
+                break;
+            case "GCS":
+            case 3:
+                message.type = 3;
+                break;
+            case "AZURE_BLOB_STORAGE":
+            case 4:
+                message.type = 4;
+                break;
+            case "HDFS":
+            case 5:
+                message.type = 5;
+                break;
             }
             if (object.uri != null)
                 message.uri = String(object.uri);
-            if (object.temp_presigned_url != null)
-                message.temp_presigned_url = String(object.temp_presigned_url);
+            if (object.cloud_presigned_url != null)
+                message.cloud_presigned_url = String(object.cloud_presigned_url);
             return message;
         };
 
@@ -4933,14 +4933,14 @@ export const bentoml = $root.bentoml = (() => {
             if (options.defaults) {
                 object.type = options.enums === String ? "UNSET" : 0;
                 object.uri = "";
-                object.temp_presigned_url = "";
+                object.cloud_presigned_url = "";
             }
             if (message.type != null && message.hasOwnProperty("type"))
                 object.type = options.enums === String ? $root.bentoml.BentoUri.StorageType[message.type] : message.type;
             if (message.uri != null && message.hasOwnProperty("uri"))
                 object.uri = message.uri;
-            if (message.temp_presigned_url != null && message.hasOwnProperty("temp_presigned_url"))
-                object.temp_presigned_url = message.temp_presigned_url;
+            if (message.cloud_presigned_url != null && message.hasOwnProperty("cloud_presigned_url"))
+                object.cloud_presigned_url = message.cloud_presigned_url;
             return object;
         };
 
@@ -4973,7 +4973,7 @@ export const bentoml = $root.bentoml = (() => {
          * @property {number} AZURE_BLOB_STORAGE=4 AZURE_BLOB_STORAGE value
          * @property {number} HDFS=5 HDFS value
          */
-        BentoUri.StorageType = (function () {
+        BentoUri.StorageType = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "UNSET"] = 0;
             values[valuesById[1] = "LOCAL"] = 1;
@@ -4987,7 +4987,7 @@ export const bentoml = $root.bentoml = (() => {
         return BentoUri;
     })();
 
-    bentoml.BentoServiceMetadata = (function () {
+    bentoml.BentoServiceMetadata = (function() {
 
         /**
          * Properties of a BentoServiceMetadata.
@@ -5111,31 +5111,31 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.name = reader.string();
-                        break;
-                    case 2:
-                        message.version = reader.string();
-                        break;
-                    case 3:
-                        message.created_at = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.env = $root.bentoml.BentoServiceMetadata.BentoServiceEnv.decode(reader, reader.uint32());
-                        break;
-                    case 5:
-                        if (!(message.artifacts && message.artifacts.length))
-                            message.artifacts = [];
-                        message.artifacts.push($root.bentoml.BentoServiceMetadata.BentoArtifact.decode(reader, reader.uint32()));
-                        break;
-                    case 6:
-                        if (!(message.apis && message.apis.length))
-                            message.apis = [];
-                        message.apis.push($root.bentoml.BentoServiceMetadata.BentoServiceApi.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.name = reader.string();
+                    break;
+                case 2:
+                    message.version = reader.string();
+                    break;
+                case 3:
+                    message.created_at = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 4:
+                    message.env = $root.bentoml.BentoServiceMetadata.BentoServiceEnv.decode(reader, reader.uint32());
+                    break;
+                case 5:
+                    if (!(message.artifacts && message.artifacts.length))
+                        message.artifacts = [];
+                    message.artifacts.push($root.bentoml.BentoServiceMetadata.BentoArtifact.decode(reader, reader.uint32()));
+                    break;
+                case 6:
+                    if (!(message.apis && message.apis.length))
+                        message.apis = [];
+                    message.apis.push($root.bentoml.BentoServiceMetadata.BentoServiceApi.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -5312,7 +5312,7 @@ export const bentoml = $root.bentoml = (() => {
             return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
         };
 
-        BentoServiceMetadata.BentoServiceEnv = (function () {
+        BentoServiceMetadata.BentoServiceEnv = (function() {
 
             /**
              * Properties of a BentoServiceEnv.
@@ -5423,24 +5423,24 @@ export const bentoml = $root.bentoml = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            message.setup_sh = reader.string();
-                            break;
-                        case 2:
-                            message.conda_env = reader.string();
-                            break;
-                        case 3:
-                            message.pip_dependencies = reader.string();
-                            break;
-                        case 4:
-                            message.python_version = reader.string();
-                            break;
-                        case 5:
-                            message.docker_base_image = reader.string();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        message.setup_sh = reader.string();
+                        break;
+                    case 2:
+                        message.conda_env = reader.string();
+                        break;
+                    case 3:
+                        message.pip_dependencies = reader.string();
+                        break;
+                    case 4:
+                        message.python_version = reader.string();
+                        break;
+                    case 5:
+                        message.docker_base_image = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -5566,7 +5566,7 @@ export const bentoml = $root.bentoml = (() => {
             return BentoServiceEnv;
         })();
 
-        BentoServiceMetadata.BentoArtifact = (function () {
+        BentoServiceMetadata.BentoArtifact = (function() {
 
             /**
              * Properties of a BentoArtifact.
@@ -5650,15 +5650,15 @@ export const bentoml = $root.bentoml = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            message.name = reader.string();
-                            break;
-                        case 2:
-                            message.artifact_type = reader.string();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        message.name = reader.string();
+                        break;
+                    case 2:
+                        message.artifact_type = reader.string();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -5760,7 +5760,7 @@ export const bentoml = $root.bentoml = (() => {
             return BentoArtifact;
         })();
 
-        BentoServiceMetadata.BentoServiceApi = (function () {
+        BentoServiceMetadata.BentoServiceApi = (function() {
 
             /**
              * Properties of a BentoServiceApi.
@@ -5898,33 +5898,33 @@ export const bentoml = $root.bentoml = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            message.name = reader.string();
-                            break;
-                        case 2:
-                            message.input_type = reader.string();
-                            break;
-                        case 3:
-                            message.docs = reader.string();
-                            break;
-                        case 4:
-                            message.input_config = $root.google.protobuf.Struct.decode(reader, reader.uint32());
-                            break;
-                        case 5:
-                            message.output_config = $root.google.protobuf.Struct.decode(reader, reader.uint32());
-                            break;
-                        case 6:
-                            message.output_type = reader.string();
-                            break;
-                        case 7:
-                            message.mb_max_latency = reader.int32();
-                            break;
-                        case 8:
-                            message.mb_max_batch_size = reader.int32();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        message.name = reader.string();
+                        break;
+                    case 2:
+                        message.input_type = reader.string();
+                        break;
+                    case 3:
+                        message.docs = reader.string();
+                        break;
+                    case 4:
+                        message.input_config = $root.google.protobuf.Struct.decode(reader, reader.uint32());
+                        break;
+                    case 5:
+                        message.output_config = $root.google.protobuf.Struct.decode(reader, reader.uint32());
+                        break;
+                    case 6:
+                        message.output_type = reader.string();
+                        break;
+                    case 7:
+                        message.mb_max_latency = reader.int32();
+                        break;
+                    case 8:
+                        message.mb_max_batch_size = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -6087,7 +6087,7 @@ export const bentoml = $root.bentoml = (() => {
         return BentoServiceMetadata;
     })();
 
-    bentoml.Bento = (function () {
+    bentoml.Bento = (function() {
 
         /**
          * Properties of a Bento.
@@ -6198,24 +6198,24 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.name = reader.string();
-                        break;
-                    case 2:
-                        message.version = reader.string();
-                        break;
-                    case 3:
-                        message.uri = $root.bentoml.BentoUri.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.bento_service_metadata = $root.bentoml.BentoServiceMetadata.decode(reader, reader.uint32());
-                        break;
-                    case 5:
-                        message.status = $root.bentoml.UploadStatus.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.name = reader.string();
+                    break;
+                case 2:
+                    message.version = reader.string();
+                    break;
+                case 3:
+                    message.uri = $root.bentoml.BentoUri.decode(reader, reader.uint32());
+                    break;
+                case 4:
+                    message.bento_service_metadata = $root.bentoml.BentoServiceMetadata.decode(reader, reader.uint32());
+                    break;
+                case 5:
+                    message.status = $root.bentoml.UploadStatus.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -6356,7 +6356,7 @@ export const bentoml = $root.bentoml = (() => {
         return Bento;
     })();
 
-    bentoml.AddBentoRequest = (function () {
+    bentoml.AddBentoRequest = (function() {
 
         /**
          * Properties of an AddBentoRequest.
@@ -6440,15 +6440,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.bento_name = reader.string();
-                        break;
-                    case 2:
-                        message.bento_version = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.bento_name = reader.string();
+                    break;
+                case 2:
+                    message.bento_version = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -6550,7 +6550,7 @@ export const bentoml = $root.bentoml = (() => {
         return AddBentoRequest;
     })();
 
-    bentoml.AddBentoResponse = (function () {
+    bentoml.AddBentoResponse = (function() {
 
         /**
          * Properties of an AddBentoResponse.
@@ -6634,15 +6634,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.uri = $root.bentoml.BentoUri.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.uri = $root.bentoml.BentoUri.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -6754,7 +6754,7 @@ export const bentoml = $root.bentoml = (() => {
         return AddBentoResponse;
     })();
 
-    bentoml.UploadStatus = (function () {
+    bentoml.UploadStatus = (function() {
 
         /**
          * Properties of an UploadStatus.
@@ -6856,21 +6856,21 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = reader.uint32();
-                        break;
-                    case 2:
-                        message.updated_at = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
-                        break;
-                    case 3:
-                        message.percentage = reader.int32();
-                        break;
-                    case 4:
-                        message.error_message = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = reader.uint32();
+                    break;
+                case 2:
+                    message.updated_at = $root.google.protobuf.Timestamp.decode(reader, reader.uint32());
+                    break;
+                case 3:
+                    message.percentage = reader.int32();
+                    break;
+                case 4:
+                    message.error_message = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -6899,14 +6899,14 @@ export const bentoml = $root.bentoml = (() => {
                 return "object expected";
             if (message.status != null)
                 switch (message.status) {
-                    default:
-                        return "status: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                        break;
+                default:
+                    return "status: enum value expected";
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    break;
                 }
             if (message.updated_at != null) {
                 let error = $root.google.protobuf.Timestamp.verify(message.updated_at);
@@ -6932,26 +6932,26 @@ export const bentoml = $root.bentoml = (() => {
                 return object;
             let message = new $root.bentoml.UploadStatus();
             switch (object.status) {
-                case "UNINITIALIZED":
-                case 0:
-                    message.status = 0;
-                    break;
-                case "UPLOADING":
-                case 1:
-                    message.status = 1;
-                    break;
-                case "DONE":
-                case 2:
-                    message.status = 2;
-                    break;
-                case "ERROR":
-                case 3:
-                    message.status = 3;
-                    break;
-                case "TIMEOUT":
-                case 4:
-                    message.status = 4;
-                    break;
+            case "UNINITIALIZED":
+            case 0:
+                message.status = 0;
+                break;
+            case "UPLOADING":
+            case 1:
+                message.status = 1;
+                break;
+            case "DONE":
+            case 2:
+                message.status = 2;
+                break;
+            case "ERROR":
+            case 3:
+                message.status = 3;
+                break;
+            case "TIMEOUT":
+            case 4:
+                message.status = 4;
+                break;
             }
             if (object.updated_at != null) {
                 if (typeof object.updated_at !== "object")
@@ -7029,7 +7029,7 @@ export const bentoml = $root.bentoml = (() => {
          * @property {number} ERROR=3 ERROR value
          * @property {number} TIMEOUT=4 TIMEOUT value
          */
-        UploadStatus.Status = (function () {
+        UploadStatus.Status = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "UNINITIALIZED"] = 0;
             values[valuesById[1] = "UPLOADING"] = 1;
@@ -7042,7 +7042,7 @@ export const bentoml = $root.bentoml = (() => {
         return UploadStatus;
     })();
 
-    bentoml.UpdateBentoRequest = (function () {
+    bentoml.UpdateBentoRequest = (function() {
 
         /**
          * Properties of an UpdateBentoRequest.
@@ -7144,21 +7144,21 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.bento_name = reader.string();
-                        break;
-                    case 2:
-                        message.bento_version = reader.string();
-                        break;
-                    case 3:
-                        message.upload_status = $root.bentoml.UploadStatus.decode(reader, reader.uint32());
-                        break;
-                    case 4:
-                        message.service_metadata = $root.bentoml.BentoServiceMetadata.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.bento_name = reader.string();
+                    break;
+                case 2:
+                    message.bento_version = reader.string();
+                    break;
+                case 3:
+                    message.upload_status = $root.bentoml.UploadStatus.decode(reader, reader.uint32());
+                    break;
+                case 4:
+                    message.service_metadata = $root.bentoml.BentoServiceMetadata.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -7286,7 +7286,7 @@ export const bentoml = $root.bentoml = (() => {
         return UpdateBentoRequest;
     })();
 
-    bentoml.UpdateBentoResponse = (function () {
+    bentoml.UpdateBentoResponse = (function() {
 
         /**
          * Properties of an UpdateBentoResponse.
@@ -7361,12 +7361,12 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -7464,7 +7464,7 @@ export const bentoml = $root.bentoml = (() => {
         return UpdateBentoResponse;
     })();
 
-    bentoml.DangerouslyDeleteBentoRequest = (function () {
+    bentoml.DangerouslyDeleteBentoRequest = (function() {
 
         /**
          * Properties of a DangerouslyDeleteBentoRequest.
@@ -7548,15 +7548,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.bento_name = reader.string();
-                        break;
-                    case 2:
-                        message.bento_version = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.bento_name = reader.string();
+                    break;
+                case 2:
+                    message.bento_version = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -7658,7 +7658,7 @@ export const bentoml = $root.bentoml = (() => {
         return DangerouslyDeleteBentoRequest;
     })();
 
-    bentoml.DangerouslyDeleteBentoResponse = (function () {
+    bentoml.DangerouslyDeleteBentoResponse = (function() {
 
         /**
          * Properties of a DangerouslyDeleteBentoResponse.
@@ -7733,12 +7733,12 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -7836,7 +7836,7 @@ export const bentoml = $root.bentoml = (() => {
         return DangerouslyDeleteBentoResponse;
     })();
 
-    bentoml.GetBentoRequest = (function () {
+    bentoml.GetBentoRequest = (function() {
 
         /**
          * Properties of a GetBentoRequest.
@@ -7920,15 +7920,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.bento_name = reader.string();
-                        break;
-                    case 2:
-                        message.bento_version = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.bento_name = reader.string();
+                    break;
+                case 2:
+                    message.bento_version = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -8030,7 +8030,7 @@ export const bentoml = $root.bentoml = (() => {
         return GetBentoRequest;
     })();
 
-    bentoml.GetBentoResponse = (function () {
+    bentoml.GetBentoResponse = (function() {
 
         /**
          * Properties of a GetBentoResponse.
@@ -8114,15 +8114,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.bento = $root.bentoml.Bento.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.bento = $root.bentoml.Bento.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -8234,7 +8234,7 @@ export const bentoml = $root.bentoml = (() => {
         return GetBentoResponse;
     })();
 
-    bentoml.ListBentoRequest = (function () {
+    bentoml.ListBentoRequest = (function() {
 
         /**
          * Properties of a ListBentoRequest.
@@ -8345,24 +8345,24 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.bento_name = reader.string();
-                        break;
-                    case 2:
-                        message.offset = reader.int32();
-                        break;
-                    case 3:
-                        message.limit = reader.int32();
-                        break;
-                    case 4:
-                        message.order_by = reader.uint32();
-                        break;
-                    case 5:
-                        message.ascending_order = reader.bool();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.bento_name = reader.string();
+                    break;
+                case 2:
+                    message.offset = reader.int32();
+                    break;
+                case 3:
+                    message.limit = reader.int32();
+                    break;
+                case 4:
+                    message.order_by = reader.uint32();
+                    break;
+                case 5:
+                    message.ascending_order = reader.bool();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -8400,11 +8400,11 @@ export const bentoml = $root.bentoml = (() => {
                     return "limit: integer expected";
             if (message.order_by != null)
                 switch (message.order_by) {
-                    default:
-                        return "order_by: enum value expected";
-                    case 0:
-                    case 1:
-                        break;
+                default:
+                    return "order_by: enum value expected";
+                case 0:
+                case 1:
+                    break;
                 }
             if (message.ascending_order != null)
                 if (typeof message.ascending_order !== "boolean")
@@ -8428,14 +8428,14 @@ export const bentoml = $root.bentoml = (() => {
             if (object.limit != null)
                 message.limit = object.limit | 0;
             switch (object.order_by) {
-                case "created_at":
-                case 0:
-                    message.order_by = 0;
-                    break;
-                case "name":
-                case 1:
-                    message.order_by = 1;
-                    break;
+            case "created_at":
+            case 0:
+                message.order_by = 0;
+                break;
+            case "name":
+            case 1:
+                message.order_by = 1;
+                break;
             }
             if (object.ascending_order != null)
                 message.ascending_order = Boolean(object.ascending_order);
@@ -8506,7 +8506,7 @@ export const bentoml = $root.bentoml = (() => {
          * @property {number} created_at=0 created_at value
          * @property {number} name=1 name value
          */
-        ListBentoRequest.SORTABLE_COLUMN = (function () {
+        ListBentoRequest.SORTABLE_COLUMN = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "created_at"] = 0;
             values[valuesById[1] = "name"] = 1;
@@ -8516,7 +8516,7 @@ export const bentoml = $root.bentoml = (() => {
         return ListBentoRequest;
     })();
 
-    bentoml.ListBentoResponse = (function () {
+    bentoml.ListBentoResponse = (function() {
 
         /**
          * Properties of a ListBentoResponse.
@@ -8602,17 +8602,17 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        if (!(message.bentos && message.bentos.length))
-                            message.bentos = [];
-                        message.bentos.push($root.bentoml.Bento.decode(reader, reader.uint32()));
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    if (!(message.bentos && message.bentos.length))
+                        message.bentos = [];
+                    message.bentos.push($root.bentoml.Bento.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -8736,7 +8736,7 @@ export const bentoml = $root.bentoml = (() => {
         return ListBentoResponse;
     })();
 
-    bentoml.Yatai = (function () {
+    bentoml.Yatai = (function() {
 
         /**
          * Constructs a new Yatai service.
@@ -9091,7 +9091,7 @@ export const bentoml = $root.bentoml = (() => {
         return Yatai;
     })();
 
-    bentoml.HealthCheckResponse = (function () {
+    bentoml.HealthCheckResponse = (function() {
 
         /**
          * Properties of a HealthCheckResponse.
@@ -9166,12 +9166,12 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -9269,7 +9269,7 @@ export const bentoml = $root.bentoml = (() => {
         return HealthCheckResponse;
     })();
 
-    bentoml.GetYataiServiceVersionResponse = (function () {
+    bentoml.GetYataiServiceVersionResponse = (function() {
 
         /**
          * Properties of a GetYataiServiceVersionResponse.
@@ -9353,15 +9353,15 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.status = $root.bentoml.Status.decode(reader, reader.uint32());
-                        break;
-                    case 2:
-                        message.version = reader.string();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.status = $root.bentoml.Status.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.version = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -9468,7 +9468,7 @@ export const bentoml = $root.bentoml = (() => {
         return GetYataiServiceVersionResponse;
     })();
 
-    bentoml.Chunk = (function () {
+    bentoml.Chunk = (function() {
 
         /**
          * Properties of a Chunk.
@@ -9543,12 +9543,12 @@ export const bentoml = $root.bentoml = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                    case 1:
-                        message.content = reader.bytes();
-                        break;
-                    default:
-                        reader.skipType(tag & 7);
-                        break;
+                case 1:
+                    message.content = reader.bytes();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
                 }
             }
             return message;
@@ -9656,7 +9656,7 @@ export const google = $root.google = (() => {
      */
     const google = {};
 
-    google.protobuf = (function () {
+    google.protobuf = (function() {
 
         /**
          * Namespace protobuf.
@@ -9665,7 +9665,7 @@ export const google = $root.google = (() => {
          */
         const protobuf = {};
 
-        protobuf.Struct = (function () {
+        protobuf.Struct = (function() {
 
             /**
              * Properties of a Struct.
@@ -9744,17 +9744,17 @@ export const google = $root.google = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            reader.skip().pos++;
-                            if (message.fields === $util.emptyObject)
-                                message.fields = {};
-                            key = reader.string();
-                            reader.pos++;
-                            message.fields[key] = $root.google.protobuf.Value.decode(reader, reader.uint32());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        reader.skip().pos++;
+                        if (message.fields === $util.emptyObject)
+                            message.fields = {};
+                        key = reader.string();
+                        reader.pos++;
+                        message.fields[key] = $root.google.protobuf.Value.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -9866,7 +9866,7 @@ export const google = $root.google = (() => {
             return Struct;
         })();
 
-        protobuf.Value = (function () {
+        protobuf.Value = (function() {
 
             /**
              * Properties of a Value.
@@ -9999,27 +9999,27 @@ export const google = $root.google = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            message.nullValue = reader.uint32();
-                            break;
-                        case 2:
-                            message.numberValue = reader.double();
-                            break;
-                        case 3:
-                            message.stringValue = reader.string();
-                            break;
-                        case 4:
-                            message.boolValue = reader.bool();
-                            break;
-                        case 5:
-                            message.structValue = $root.google.protobuf.Struct.decode(reader, reader.uint32());
-                            break;
-                        case 6:
-                            message.listValue = $root.google.protobuf.ListValue.decode(reader, reader.uint32());
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        message.nullValue = reader.uint32();
+                        break;
+                    case 2:
+                        message.numberValue = reader.double();
+                        break;
+                    case 3:
+                        message.stringValue = reader.string();
+                        break;
+                    case 4:
+                        message.boolValue = reader.bool();
+                        break;
+                    case 5:
+                        message.structValue = $root.google.protobuf.Struct.decode(reader, reader.uint32());
+                        break;
+                    case 6:
+                        message.listValue = $root.google.protobuf.ListValue.decode(reader, reader.uint32());
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -10050,10 +10050,10 @@ export const google = $root.google = (() => {
                 if (message.nullValue != null) {
                     properties.kind = 1;
                     switch (message.nullValue) {
-                        default:
-                            return "nullValue: enum value expected";
-                        case 0:
-                            break;
+                    default:
+                        return "nullValue: enum value expected";
+                    case 0:
+                        break;
                     }
                 }
                 if (message.numberValue != null) {
@@ -10106,10 +10106,10 @@ export const google = $root.google = (() => {
                     return object;
                 let message = new $root.google.protobuf.Value();
                 switch (object.nullValue) {
-                    case "NULL_VALUE":
-                    case 0:
-                        message.nullValue = 0;
-                        break;
+                case "NULL_VALUE":
+                case 0:
+                    message.nullValue = 0;
+                    break;
                 }
                 if (object.numberValue != null)
                     message.numberValue = Number(object.numberValue);
@@ -10209,13 +10209,13 @@ export const google = $root.google = (() => {
          * @enum {number}
          * @property {number} NULL_VALUE=0 NULL_VALUE value
          */
-        protobuf.NullValue = (function () {
+        protobuf.NullValue = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "NULL_VALUE"] = 0;
             return values;
         })();
 
-        protobuf.ListValue = (function () {
+        protobuf.ListValue = (function() {
 
             /**
              * Properties of a ListValue.
@@ -10292,14 +10292,14 @@ export const google = $root.google = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            if (!(message.values && message.values.length))
-                                message.values = [];
-                            message.values.push($root.google.protobuf.Value.decode(reader, reader.uint32()));
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        if (!(message.values && message.values.length))
+                            message.values = [];
+                        message.values.push($root.google.protobuf.Value.decode(reader, reader.uint32()));
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -10409,7 +10409,7 @@ export const google = $root.google = (() => {
             return ListValue;
         })();
 
-        protobuf.Timestamp = (function () {
+        protobuf.Timestamp = (function() {
 
             /**
              * Properties of a Timestamp.
@@ -10435,7 +10435,7 @@ export const google = $root.google = (() => {
              * Timestamp seconds.
              * @type {number|Long|undefined}
              */
-            Timestamp.prototype.seconds = $util.Long ? $util.Long.fromBits(0, 0, false) : 0;
+            Timestamp.prototype.seconds = $util.Long ? $util.Long.fromBits(0,0,false) : 0;
 
             /**
              * Timestamp nanos.
@@ -10493,15 +10493,15 @@ export const google = $root.google = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        case 1:
-                            message.seconds = reader.int64();
-                            break;
-                        case 2:
-                            message.nanos = reader.int32();
-                            break;
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    case 1:
+                        message.seconds = reader.int64();
+                        break;
+                    case 2:
+                        message.nanos = reader.int32();
+                        break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
@@ -10617,7 +10617,7 @@ export const google = $root.google = (() => {
             return Timestamp;
         })();
 
-        protobuf.Empty = (function () {
+        protobuf.Empty = (function() {
 
             /**
              * Properties of an Empty.
@@ -10683,9 +10683,9 @@ export const google = $root.google = (() => {
                 while (reader.pos < end) {
                     let tag = reader.uint32();
                     switch (tag >>> 3) {
-                        default:
-                            reader.skipType(tag & 7);
-                            break;
+                    default:
+                        reader.skipType(tag & 7);
+                        break;
                     }
                 }
                 return message;
