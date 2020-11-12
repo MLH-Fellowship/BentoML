@@ -116,6 +116,10 @@ const createRoutes = (app, yataiClient) => {
     }
   });
 
+  app.get("/api/healthz", async (req: Request, res: Response) => {
+    res.json({status: 200});
+  });
+
   app.post("/api/DeleteDeployment", async (req: Request, res: Response) => {
     let verifyError = bentoml.DeleteDeploymentRequest.verify(req.body);
     if (verifyError) {
