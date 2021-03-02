@@ -41,6 +41,7 @@ from bentoml.frameworks.sklearn import SklearnModelArtifact
 from bentoml.frameworks.spacy import SpacyModelArtifact
 from bentoml.frameworks.tensorflow import TensorflowSavedModelArtifact
 from bentoml.frameworks.xgboost import XgboostModelArtifact
+from bentoml.frameworks.paddle import PaddleModelArtifact
 
 __all__ = [
     "ArtifactCollection",
@@ -64,4 +65,5 @@ __all__ = [
     "TextFileArtifact",
     "XgboostModelArtifact",
     "PytorchLightningModelArtifact",
+    "PaddleModelArtifact",
 ]
