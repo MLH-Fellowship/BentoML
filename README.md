@@ -1,17 +1,17 @@
 [<img src="https://raw.githubusercontent.com/bentoml/BentoML/master/docs/source/_static/img/bentoml-readme-header.jpeg" width="600px" margin-left="-5px">](https://github.com/bentoml/BentoML)
 
-## The easiest way to build Machine Learning APIs  [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=BentoML:%20The%20easiest%20way%20to%20build%20Machine%20Learning%20APIs&url=https://github.com/bentoml/BentoML&via=bentomlai&hashtags=mlops,modelserving,ML,AI,machinelearning,bentoml)
+## The easiest way to build Machine Learning APIs [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=BentoML:%20The%20easiest%20way%20to%20build%20Machine%20Learning%20APIs&url=https://github.com/bentoml/BentoML&via=bentomlai&hashtags=mlops,modelserving,ML,AI,machinelearning,bentoml)
 
 BentoML makes moving trained ML models to production easy:
 
-* Package models trained with __any ML framework__ and reproduce them for model serving
-    in production
-* __Deploy anywhere__ for online API serving or offline batch serving
-* High-Performance API model server with _adaptive micro-batching_ support
-* Central hub for managing models and deployment process via Web UI and APIs
-* Modular and flexible design making it _adaptable to your infrastrcuture_
-                                                           
-BentoML is a framework for serving, managing, and deploying machine learning models. It 
+- Package models trained with **any ML framework** and reproduce them for model serving
+  in production
+- **Deploy anywhere** for online API serving or offline batch serving
+- High-Performance API model server with _adaptive micro-batching_ support
+- Central hub for managing models and deployment process via Web UI and APIs
+- Modular and flexible design making it _adaptable to your infrastrcuture_
+
+BentoML is a framework for serving, managing, and deploying machine learning models. It
 is aiming to bridge the gap between Data Science and DevOps, and enable teams to deliver
 prediction services in a fast, repeatable, and scalable way.
 
@@ -27,83 +27,82 @@ and [BentoML Discussions](https://github.com/bentoml/BentoML/discussions).
 [![Documentation Status](https://readthedocs.org/projects/bentoml/badge/?version=latest)](https://docs.bentoml.org/)
 [![join BentoML Slack](https://badgen.net/badge/Join/BentoML%20Slack/cyan?icon=slack)](https://join.slack.com/t/bentoml/shared_invite/enQtNjcyMTY3MjE4NTgzLTU3ZDc1MWM5MzQxMWQxMzJiNTc1MTJmMzYzMTYwMjQ0OGEwNDFmZDkzYWQxNzgxYWNhNjAxZjk4MzI4OGY1Yjg)
 
-
 - [Documentation](https://github.com/bentoml/BentoML#documentation)
 - [Introduction](https://github.com/bentoml/BentoML#Introduction)
 - [Why BentoML](https://github.com/bentoml/BentoML#why-bentoml)
 - [Contributing](https://github.com/bentoml/BentoML#contributing)
 - [License](https://github.com/bentoml/BentoML#license)
 
-
 ## Documentation
 
 BentoML documentation: [https://docs.bentoml.org/](https://docs.bentoml.org/)
 
-* [Quickstart Guide](https://docs.bentoml.org/en/latest/quickstart.html), try it out [on Google Colab](https://colab.research.google.com/github/bentoml/BentoML/blob/master/guides/quick-start/bentoml-quick-start-guide.ipynb) 
-* [Core Concepts](https://docs.bentoml.org/en/latest/concepts.html)
-* [API References](https://docs.bentoml.org/en/latest/api/index.html)
-* [FAQ](https://docs.bentoml.org/en/latest/faq.html)
-* Example projects: [bentoml/Gallery](https://github.com/bentoml/gallery)
-
+- [Quickstart Guide](https://docs.bentoml.org/en/latest/quickstart.html), try it out [on Google Colab](https://colab.research.google.com/github/bentoml/BentoML/blob/master/guides/quick-start/bentoml-quick-start-guide.ipynb)
+- [Core Concepts](https://docs.bentoml.org/en/latest/concepts.html)
+- [API References](https://docs.bentoml.org/en/latest/api/index.html)
+- [FAQ](https://docs.bentoml.org/en/latest/faq.html)
+- Example projects: [bentoml/Gallery](https://github.com/bentoml/gallery)
 
 ### Key Features
 
 Online serving with API model server:
-* **Containerized model server** for production deployment with Docker, Kubernetes, OpenShift, AWS ECS, Azure, GCP GKE, etc
-* **Adaptive micro-batching** for optimal online serving performance
-* Discover and package all dependencies automatically, including PyPI, conda packages and local python modules
-* Support **multiple ML frameworks** including PyTorch, TensorFlow, Scikit-Learn, XGBoost, and [many more](https://github.com/bentoml/BentoML#ml-frameworks)
-* Serve compositions of **multiple models**
-* Serve **multiple endpoints** in one model server
-* Serve any Python code along with trained models
-* Automatically generate HTTP API spec in **Swagger/OpenAPI** format
-* **Prediction logging** and feedback logging endpoint
-* Health check endpoint and **Prometheus** `/metrics` endpoint for monitoring
-* Load and replay historical prediction request logs (roadmap)
-* Model serving via gRPC endpoint (roadmap)
+
+- **Containerized model server** for production deployment with Docker, Kubernetes, OpenShift, AWS ECS, Azure, GCP GKE, etc
+- **Adaptive micro-batching** for optimal online serving performance
+- Discover and package all dependencies automatically, including PyPI, conda packages and local python modules
+- Support **multiple ML frameworks** including PyTorch, TensorFlow, Scikit-Learn, XGBoost, and [many more](https://github.com/bentoml/BentoML#ml-frameworks)
+- Serve compositions of **multiple models**
+- Serve **multiple endpoints** in one model server
+- Serve any Python code along with trained models
+- Automatically generate HTTP API spec in **Swagger/OpenAPI** format
+- **Prediction logging** and feedback logging endpoint
+- Health check endpoint and **Prometheus** `/metrics` endpoint for monitoring
+- Load and replay historical prediction request logs (roadmap)
+- Model serving via gRPC endpoint (roadmap)
 
 Advanced workflow for model serving and deployment:
-* **Central repository** for managing all your team's packaged models via Web UI and API
-* Launch inference run from CLI or Python, which enables **CI/CD** testing, programmatic 
-    access and **batch offline inference job**
-* **One-click deployment** to cloud platforms including AWS Lambda, AWS SageMaker, and Azure Functions
-* Distributed batch job or streaming job with **Apache Spark** (improved Spark support is on the roadmap)
-* **Advanced model deployment workflows** for Kubernetes, including auto-scaling, scale-to-zero, A/B testing, canary deployment, and multi-armed-bandit (roadmap)
-* Deep integration with ML experimentation platforms including MLFlow, Kubeflow (roadmap)
 
+- **Central repository** for managing all your team's packaged models via Web UI and API
+- Launch inference run from CLI or Python, which enables **CI/CD** testing, programmatic
+  access and **batch offline inference job**
+- **One-click deployment** to cloud platforms including AWS Lambda, AWS SageMaker, and Azure Functions
+- Distributed batch job or streaming job with **Apache Spark** (improved Spark support is on the roadmap)
+- **Advanced model deployment workflows** for Kubernetes, including auto-scaling, scale-to-zero, A/B testing, canary deployment, and multi-armed-bandit (roadmap)
+- Deep integration with ML experimentation platforms including MLFlow, Kubeflow (roadmap)
 
 ### ML Frameworks
 
-* Scikit-Learn - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#scikit-learn) | [Examples](https://github.com/bentoml/gallery#scikit-learn)
-* PyTorch - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#pytorch) | [Examples](https://github.com/bentoml/gallery#pytorch)
-* Tensorflow 2 - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#tensorflow-2-0) | [Examples](https://github.com/bentoml/gallery#tensorflow-20)
-* Tensorflow Keras - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#tensorflow-keras) | [Examples](https://github.com/bentoml/gallery#tensorflow-keras)
-* XGBoost - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#xgboost) | [Examples](https://github.com/bentoml/gallery#xgboost)
-* LightGBM - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#lightgbm) | [Examples](https://github.com/bentoml/gallery#lightgbm)
-* FastText - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#fasttext) | [Examples](https://github.com/bentoml/gallery#fasttext)
-* FastAI - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#fastai) | [Examples](https://github.com/bentoml/gallery#fastai)
-* H2O - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#h2o) | [Examples](https://github.com/bentoml/gallery#h2o)
-* ONNX - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#onnx) | [Examples](https://github.com/bentoml/gallery#onnx)
-* Spacy - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#spacy) | [Examples](https://github.com/bentoml/gallery#spacy)
-* Statsmodels - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#statsmodels) | [Examples](https://github.com/bentoml/gallery#statsmodels)
-* CoreML - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#coreml)
-* Transformers - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#transformers)
-* Gluon - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#gluon)
-* Detectron - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#detectron)
-
-
+- Scikit-Learn - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#scikit-learn) | [Examples](https://github.com/bentoml/gallery#scikit-learn)
+- PyTorch - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#pytorch) | [Examples](https://github.com/bentoml/gallery#pytorch)
+- Tensorflow 2 - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#tensorflow-2-0) | [Examples](https://github.com/bentoml/gallery#tensorflow-20)
+- Tensorflow Keras - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#tensorflow-keras) | [Examples](https://github.com/bentoml/gallery#tensorflow-keras)
+- XGBoost - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#xgboost) | [Examples](https://github.com/bentoml/gallery#xgboost)
+- LightGBM - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#lightgbm) | [Examples](https://github.com/bentoml/gallery#lightgbm)
+- FastText - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#fasttext) | [Examples](https://github.com/bentoml/gallery#fasttext)
+- FastAI - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#fastai) | [Examples](https://github.com/bentoml/gallery#fastai)
+- H2O - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#h2o) | [Examples](https://github.com/bentoml/gallery#h2o)
+- ONNX - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#onnx) | [Examples](https://github.com/bentoml/gallery#onnx)
+- Spacy - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#spacy) | [Examples](https://github.com/bentoml/gallery#spacy)
+- Statsmodels - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#statsmodels) | [Examples](https://github.com/bentoml/gallery#statsmodels)
+- CoreML - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#coreml)
+- Transformers - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#transformers)
+- Gluon - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#gluon)
+- Detectron - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#detectron)
+- Paddle - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#paddle)
 
 ### Deployment Options
 
 Be sure to check out [deployment overview doc](https://docs.bentoml.org/en/latest/deployment/index.html)
 to understand which deployment option is best suited for your use case.
 
-* One-click deployment with BentoML:
+- One-click deployment with BentoML:
+
   - [AWS Lambda](https://docs.bentoml.org/en/latest/deployment/aws_lambda.html)
   - [AWS SageMaker](https://docs.bentoml.org/en/latest/deployment/aws_sagemaker.html)
   - [Azure Functions](https://docs.bentoml.org/en/latest/deployment/azure_functions.html)
 
-* Deploy with open-source platforms:
+- Deploy with open-source platforms:
+
   - [Docker](https://docs.bentoml.org/en/latest/deployment/docker.html)
   - [Kubernetes](https://docs.bentoml.org/en/latest/deployment/kubernetes.html)
   - [Knative](https://docs.bentoml.org/en/latest/deployment/knative.html)
@@ -111,17 +110,16 @@ to understand which deployment option is best suited for your use case.
   - [KFServing](https://docs.bentoml.org/en/latest/deployment/kfserving.html)
   - [Clipper](https://docs.bentoml.org/en/latest/deployment/clipper.html)
 
-* Deploy directly to cloud services:
+- Deploy directly to cloud services:
   - [AWS ECS](https://docs.bentoml.org/en/latest/deployment/aws_ecs.html)
   - [Google Cloud Run](https://docs.bentoml.org/en/latest/deployment/google_cloud_run.html)
   - [Azure container instance](https://docs.bentoml.org/en/latest/deployment/azure_container_instance.html)
   - [Heroku](https://docs.bentoml.org/en/latest/deployment/heroku.html)
 
-
 ## Introduction
 
-BentoML provides abstractions for creating a prediction service that's bundled with 
-trained models. User can define inference APIs with serving logic with Python code and 
+BentoML provides abstractions for creating a prediction service that's bundled with
+trained models. User can define inference APIs with serving logic with Python code and
 specify the expected input/output data type:
 
 ```python
@@ -162,17 +160,19 @@ svc.pack('my_model', my_sklearn_model)
 svc.save()  # default saves to ~/bentoml/repository/MyPredictionService/{version}/
 ```
 
-This will save all the code files, serialized models, and configs required for 
+This will save all the code files, serialized models, and configs required for
 reproducing this prediction service for inference. BentoML automatically captures all
 the pip package dependencies and local python code dependencies, and versioned together
 with other code and model files in one place.
 
 With the saved prediction service, user can start a local API server hosting it:
+
 ```bash
 bentoml serve MyPredictionService:latest
 ```
 
 And create a docker container image for this API model server with one command:
+
 ```bash
 bentoml containerize MyPredictionService:latest -t my_prediction_service:latest
 
@@ -188,10 +188,9 @@ If you are at a small team without DevOps support, BentoML also provides an [one
 deployment option](https://github.com/bentoml/BentoML#deployment-options), which deploys
 the model server API to cloud platforms with minimum setup.
 
-Read the [Quickstart Guide](https://docs.bentoml.org/en/latest/quickstart.html) 
-to learn more about the basic functionalities of BentoML. You can also try it out 
+Read the [Quickstart Guide](https://docs.bentoml.org/en/latest/quickstart.html)
+to learn more about the basic functionalities of BentoML. You can also try it out
 [here on Google Colab](https://colab.research.google.com/github/bentoml/BentoML/blob/master/guides/quick-start/bentoml-quick-start-guide.ipynb).
-
 
 ## Why BentoML
 
@@ -216,29 +215,24 @@ on how does BentoML compares to Tensorflow-serving, Clipper, AWS SageMaker, MLFl
 
 <img src="https://raw.githubusercontent.com/bentoml/BentoML/master/docs/source/_static/img/bentoml-overview.png" width="600">
 
-
 ## Contributing
 
 Have questions or feedback? Post a [new github issue](https://github.com/bentoml/BentoML/issues/new/choose)
 or discuss in our Slack channel: [![join BentoML Slack](https://badgen.net/badge/Join/BentoML%20Slack/cyan?icon=slack)](https://join.slack.com/t/bentoml/shared_invite/enQtNjcyMTY3MjE4NTgzLTU3ZDc1MWM5MzQxMWQxMzJiNTc1MTJmMzYzMTYwMjQ0OGEwNDFmZDkzYWQxNzgxYWNhNjAxZjk4MzI4OGY1Yjg)
 
-
 Want to help build BentoML? Check out our
 [contributing guide](https://github.com/bentoml/BentoML/blob/master/CONTRIBUTING.md) and the
 [development guide](https://github.com/bentoml/BentoML/blob/master/DEVELOPMENT.md).
 
-
 [![](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/images/0)](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/links/0)[![](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/images/1)](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/links/1)[![](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/images/2)](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/links/2)[![](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/images/3)](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/links/3)[![](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/images/4)](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/links/4)[![](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/images/5)](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/links/5)[![](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/images/6)](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/links/6)[![](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/images/7)](https://sourcerer.io/fame/yubozhao/bentoml/BentoML/links/7)
-
 
 ## Releases
 
 BentoML is under active development and is evolving rapidly.
-It is currently a Beta release, __we may change APIs in future releases__ and there
+It is currently a Beta release, **we may change APIs in future releases** and there
 are still major features being worked on.
 
 Read more about the latest updates from the [releases page](https://github.com/bentoml/BentoML/releases).
-
 
 ## Usage Tracking
 
@@ -260,7 +254,6 @@ bentoml config set usage_tracking=false
 import bentoml
 bentoml.config().set('core', 'usage_tracking', 'False')
 ```
-
 
 ## License
 

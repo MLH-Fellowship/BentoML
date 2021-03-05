@@ -202,6 +202,17 @@ Detectron
 .. autoclass:: bentoml.frameworks.detectron.DetectronModelArtifact
 
 
+=========
+Paddle
+=========
+
+Example Projects:
+
+* Boston Housing Prediction - `Google Colab <#TODO>`__ / `Notebook Source <#TODO>`__
+
+.. autoclass:: bentoml.frameworks.paddle.PaddleModelArtifact
+
+
 .. spelling::
 
     MLModel
