@@ -5,25 +5,26 @@ import numpy as np
 
 import bentoml
 from bentoml.adapters import DataframeInput
-from bentoml.frameworks.paddle import PaddleModelArtifact
+from bentoml.frameworks.fastai import FastaiModelArtifact
 
 
 @bentoml.env(infer_pip_packages=True)
-@bentoml.artifacts([PaddleModelArtifact('model')])
-class PaddleService(bentoml.BentoService):
+@bentoml.artifacts([FastaiModelArtifact('model')])
+class FastaiClassifier(bentoml.BentoService):
     @bentoml.api(input=DataframeInput(), batch=True)
     def predict(self, df):
         input_data = df.to_numpy().astype(np.float32)
-        output_tensor = self.artifacts.model(input_data)
-        return output_tensor.numpy()
+        _, _, output = self.artifacts.model.predict(input_data)
+
+        return output.squeeze().item()
 
 
 if __name__ == "__main__":
     artifacts_path = sys.argv[1]
     bento_dist_path = sys.argv[2]
-    service = PaddleService()
+    service = FastaiClassifier()
 
-    from model.model import Model  # noqa # pylint: disable=unused-import
+    from model.model import Loss, Model  # noqa # pylint: disable=unused-import
 
     service.artifacts.load_all(artifacts_path)
 

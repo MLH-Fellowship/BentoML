@@ -46,3 +46,14 @@ def host(pytestconfig, clean_context, enable_microbatch):
     else:
         with run_api_server(test_svc_bundle, enable_microbatch) as host:
             yield host
+            
+
+@pytest.fixture(scope="module")
+def service(pytestconfig):
+    test_svc_bundle = pytestconfig.getoption("bento_dist") or os.path.join(
+        sys.argv[1], "build", "dist"
+    )
+
+    import bentoml
+
+    return bentoml.load_from_dir(test_svc_bundle)

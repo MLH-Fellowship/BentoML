@@ -31,8 +31,6 @@ def train(model, loader, loss_fn, opt):
             loss.backward()
             opt.step()
             opt.clear_grad()
-            print("Epoch {} batch {}: loss = {}".format(
-                epoch_id, batch_id, np.mean(loss.numpy())))
 
 def pack_models(path):
     from bentoml.frameworks.paddle import PaddleModelArtifact

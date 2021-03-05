@@ -4,8 +4,10 @@ from bentoml.exceptions import MissingDependencyException
 from bentoml.service.artifacts import BentoServiceArtifact
 from bentoml.service.env import BentoServiceEnv
 
+
 try:
     import paddle
+    from paddle.static import InputSpec
 except ImportError:
     paddle = None
 
@@ -55,6 +57,7 @@ class PaddleModelArtifact(BentoServiceArtifact):
 
     def load(self, path):
         model = paddle.jit.load(self._file_path(path))
+        model = paddle.jit.to_static(model, input_spec=model._input_spec())
         model.eval()
         return self.pack(model)
 
