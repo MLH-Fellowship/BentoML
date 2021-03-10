@@ -90,7 +90,7 @@ Advanced workflow for model serving and deployment:
 * Transformers - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#transformers)
 * Gluon - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#gluon)
 * Detectron - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#detectron)
-
+* Paddle - [Docs](https://docs.bentoml.org/en/latest/frameworks.html#paddle)
 
 
 ### Deployment Options

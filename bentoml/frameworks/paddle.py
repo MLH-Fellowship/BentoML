@@ -4,8 +4,10 @@ from bentoml.exceptions import MissingDependencyException
 from bentoml.service.artifacts import BentoServiceArtifact
 from bentoml.service.env import BentoServiceEnv
 
+
 try:
     import paddle
+    from paddle.static import InputSpec
 except ImportError:
     paddle = None
 
@@ -19,8 +21,25 @@ class PaddleModelArtifact(BentoServiceArtifact):
         MissingDependencyException: paddle package is required for PaddleModelArtifact
 
     Example usage: 
-    # TODO
-
+    
+    >>> import pandas as pd
+    >>>
+    >>> from bentoml import env, artifacts, api, BentoService
+    >>> from bentoml.adapters import DataframeInput
+    >>> from bentoml.frameworks.paddle import PaddleModelArtifact
+    >>>
+    >>> @env(infer_pip_packages=True)
+    >>> @artifacts([PaddleModelArtifact('model')])
+    >>> class PaddleService(BentoService):
+    >>>    @api(input=DataframeInput(), batch=True)
+    >>>    def predict(self, df: pd.DataFrame):
+    >>>        input_data = df.to_numpy().astype(np.float32)
+    >>>        output_tensor = self.artifacts.model(df)
+    >>>        return output_tensor.numpy()
+    >>>
+    >>> service = PaddleService()
+    >>>
+    >>> service.pack('model', model_to_save)
     """
 
     def __init__(self, name:str):
@@ -38,6 +57,7 @@ class PaddleModelArtifact(BentoServiceArtifact):
 
     def load(self, path):
         model = paddle.jit.load(self._file_path(path))
+        model = paddle.jit.to_static(model, input_spec=model._input_spec())
         model.eval()
         return self.pack(model)
 
@@ -52,4 +72,3 @@ class PaddleModelArtifact(BentoServiceArtifact):
 
     def set_dependencies(self, env: BentoServiceEnv):
         env.add_pip_packages(['paddlepaddle'])
-
